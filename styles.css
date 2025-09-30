@@ -1,0 +1,160 @@
+/* --- 1. Basic Reset and Typography --- */
+:root {
+    --primary-color: #007bff; /* Blue */
+    --secondary-color: #f4f4f4; /* Light Gray */
+    --text-color: #333;
+    --white-color: #fff;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--white-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* --- 2. Navigation Bar (Always Responsive) --- */
+.navbar {
+    background: var(--primary-color);
+    color: var(--white-color);
+    padding: 1rem 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--white-color);
+    margin-left: 15px;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* --- 3. Hero Section (Visual Appeal) --- */
+.hero-section {
+    background: var(--secondary-color);
+    padding: 60px 20px;
+    text-align: center;
+    margin: 40px 0;
+    border-radius: 8px;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.cta-button {
+    background: var(--primary-color);
+    color: var(--white-color);
+    padding: 10px 25px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: translateY(-2px);
+}
+
+
+/* --- 4. Card Grid (The Responsive Magic) --- */
+.card-grid {
+    display: flex; /* Activate Flexbox */
+    flex-wrap: wrap; /* Allows cards to wrap to the next line */
+    gap: 20px; /* Space between cards */
+    padding: 20px 0;
+}
+
+.card {
+    flex: 1 1 300px; /* Key for responsiveness! 
+                        flex-grow: 1, flex-shrink: 1, basis: 300px. 
+                        Each card tries to be 300px wide, but shrinks 
+                        or grows to fill the container nicely. */
+    background: var(--white-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    min-width: 250px; /* Prevents cards from getting too small on tiny screens */
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+}
+
+/* --- 5. Footer --- */
+.footer {
+    background: #333;
+    color: var(--white-color);
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+}
+
+
+/* --- 6. Media Query for Small Screens (Mobile Optimization) --- */
+@media (max-width: 600px) {
+    /* Stack the navbar elements vertically on mobile */
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-links {
+        margin-top: 10px;
+    }
+    
+    .nav-links a {
+        display: block; /* Make links take full width */
+        margin: 5px 0;
+    }
+
+    /* Reduce font size for smaller screens */
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    /* Card basis can be smaller on tiny screens if needed, 
+       but `flex: 1 1 100%` often works best for a stacked look. */
+    .card {
+        flex: 1 1 100%; 
+    }
+}
