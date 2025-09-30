@@ -1,48 +1,245 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nice Responsive UI</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>Christophe Khalil - CS Researcher</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Inter font and smooth transitions */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background matching GitHub vibe */
+            color: #c9d1d9; /* Light gray text */
+            transition: background-color 0.5s;
+            overflow: hidden; /* Prevent scrollbars from canvas exceeding bounds */
+        }
+        .profile-card {
+            background-color: #161b22; /* Slightly lighter dark card */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Darker shadow for depth */
+            z-index: 10; /* Ensure content is above the canvas */
+            position: relative; /* Needed for z-index to work reliably */
+        }
+        .skill-badge {
+            background-color: rgba(30, 144, 255, 0.1); /* Slightly transparent blue */
+            border: 1px solid #1e90ff;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .skill-badge:hover {
+            transform: translateY(-2px);
+            background-color: rgba(30, 144, 255, 0.25);
+            /* Add a subtle glow for better feel */
+            box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+        }
+        
+        /* Canvas for the animated background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+    </style>
 </head>
-<body>
-    <header class="navbar">
-        <div class="logo">MyBrand</div>
-        <nav class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <main class="container">
-        <section id="hero" class="hero-section">
-            <h1>Responsive Design Starts Here</h1>
-            <p>This layout adapts perfectly to any screen size using modern Flexbox techniques.</p>
-            <a href="#portfolio" class="cta-button">View Work</a>
+    <!-- Load Inter font script and Tailwind config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#1e90ff', /* Dodger Blue */
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Animated Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main Profile Card Container (z-index 10 makes it float above canvas) -->
+    <div class="profile-card w-full max-w-4xl p-8 md:p-12 rounded-xl">
+        
+        <!-- Header and Avatar Section (Flex for responsiveness) -->
+        <header class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+            
+            <!-- Avatar (Placeholder for your Anime picture) -->
+            <div class="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
+                <img 
+                    class="rounded-full w-full h-full object-cover border-4 border-primary-blue" 
+                    src="https://placehold.co/160x160/1e90ff/ffffff?text=CK" 
+                    alt="Christophe Khalil Profile Placeholder"
+                    onerror="this.onerror=null;this.src='https://placehold.co/160x160/1e90ff/ffffff?text=CK';"
+                />
+                <!-- Online Status Dot -->
+                <span class="absolute bottom-1 right-1 block h-5 w-5 rounded-full ring-4 ring-primary-blue bg-green-400"></span>
+            </div>
+
+            <!-- Intro Text -->
+            <div class="text-center md:text-left">
+                <p class="text-lg text-primary-blue font-semibold mb-1 uppercase tracking-wider">MS Computer Science | Researcher</p>
+                <h1 class="text-5xl font-extrabold text-white leading-tight mb-3">Christophe Khalil</h1>
+                
+                <p class="text-xl text-gray-400 max-w-xl">
+                    Specializing in **Data Structures and Algorithms**, **Parallel Computing**, and **Machine & Deep Learning**. Currently focused on developing **Arabic Large Language Models (LLMs)**.
+                </p>
+
+                <!-- Location / Affiliation -->
+                <div class="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-4 text-gray-400">
+                    <span class="flex items-center space-x-1">
+                        <!-- Icon: Academic Cap -->
+                        <svg class="w-5 h-5 text-primary-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l-9 5 9 5 9-5-9-5z"></path></svg>
+                        <span>American University of Beirut (AUB)</span>
+                    </span>
+                    <span class="flex items-center space-x-1">
+                        <!-- Icon: Location Pin -->
+                        <svg class="w-5 h-5 text-primary-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243m10.606 0a9 9 0 11-12.728 0m0 0l-4.243-4.243m10.606 0l4.243-4.243m-10.606 0l4.243 4.243m-10.606 0a9 9 0 110-12.728M12 6.75a3 3 0 110 6 3 3 0 010-6z"></path></svg>
+                        <span>Lebanon</span>
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <hr class="border-t border-gray-700 my-8">
+
+        <!-- Skills and Focus Area Section -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4 text-white">Core Competencies</h2>
+            <div class="flex flex-wrap gap-3">
+                
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    Parallel Computing
+                </span>
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    Arabic LLMs
+                </span>
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    Deep Learning
+                </span>
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    Data Structures & Algorithms
+                </span>
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    Machine Learning
+                </span>
+                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
+                    C# & C++
+                </span>
+            </div>
         </section>
 
-        <section id="features" class="card-grid">
-            <div class="card">
-                <h2>Mobile First</h2>
-                <p>Ensures great performance and usability on smaller screens.</p>
-            </div>
-            <div class="card">
-                <h2>Clean Layout</h2>
-                <p>Minimalist design focusing on content clarity and readability.</p>
-            </div>
-            <div class="card">
-                <h2>Easy to Customize</h2>
-                <p>Simple CSS structure makes changing colors and fonts straightforward.</p>
-            </div>
-        </section>
-    </main>
+        <hr class="border-t border-gray-700 my-8">
 
-    <footer class="footer">
-        <p>&copy; 2025 Responsive UI Template</p>
-    </footer>
+        <!-- Call to Action Footer -->
+        <footer class="text-center">
+            <a href="https://github.com/chriskhalil?tab=repositories" target="_blank" class="bg-primary-blue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 inline-flex items-center shadow-lg shadow-primary-blue/30">
+                <!-- Icon: Code -->
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                Explore My Repositories on GitHub
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        /**
+         * Dynamic Star Field Background using HTML Canvas
+         */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 100;
+
+        /**
+         * Resizes the canvas to fit the entire window size.
+         * This function is crucial for responsiveness.
+         */
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Re-initialize particles to spread them correctly after resize
+            init(); 
+        }
+
+        /**
+         * Particle Class (Represents a single star/dot)
+         */
+        class Particle {
+            constructor() {
+                // Initialize position randomly within the screen bounds
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Random size and speed for a depth effect
+                this.size = Math.random() * 1.5 + 0.5; // Size between 0.5 and 2
+                this.speedX = Math.random() * 0.1 - 0.05; // Slow horizontal drift
+                this.speedY = Math.random() * 0.1 - 0.05; // Slow vertical drift
+                this.opacity = Math.random() * 0.7 + 0.3; // Opacity between 0.3 and 1.0
+            }
+            
+            // Updates particle position for animation
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Loop particles: if they drift off-screen, reset them to the opposite side
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+
+            // Draws the particle on the canvas
+            draw() {
+                ctx.fillStyle = `rgba(30, 144, 255, ${this.opacity})`; // Use the primary-blue color with particle opacity
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        /**
+         * Initializes the array of particles.
+         */
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        /**
+         * The main animation loop.
+         */
+        function animate() {
+            // Clear the canvas on each frame (creates the movement effect)
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            
+            // Update and draw each particle
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            
+            // Request the next frame for smooth animation
+            requestAnimationFrame(animate);
+        }
+
+        // --- Event Listeners and Startup ---
+        
+        // Resize canvas whenever the window dimensions change
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Start the animation when the page loads
+        window.onload = function () {
+            resizeCanvas();
+            animate();
+        }
+    </script>
 </body>
 </html>
