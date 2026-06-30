@@ -1,245 +1,732 @@
-!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christophe Khalil - CS Researcher</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles for the Inter font and smooth transitions */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background matching GitHub vibe */
-            color: #c9d1d9; /* Light gray text */
-            transition: background-color 0.5s;
-            overflow: hidden; /* Prevent scrollbars from canvas exceeding bounds */
-        }
-        .profile-card {
-            background-color: #161b22; /* Slightly lighter dark card */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Darker shadow for depth */
-            z-index: 10; /* Ensure content is above the canvas */
-            position: relative; /* Needed for z-index to work reliably */
-        }
-        .skill-badge {
-            background-color: rgba(30, 144, 255, 0.1); /* Slightly transparent blue */
-            border: 1px solid #1e90ff;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-        .skill-badge:hover {
-            transform: translateY(-2px);
-            background-color: rgba(30, 144, 255, 0.25);
-            /* Add a subtle glow for better feel */
-            box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
-        }
-        
-        /* Canvas for the animated background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christophe Khalil — Multilingual & Multimodal ML Research</title>
+<meta name="description" content="ML researcher working on multilingual & multimodal language models: post-training, model adaptation, and evaluation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b; --bg-soft:#101012; --surface:rgba(255,255,255,.035);
+  --surface-solid:#141417; --text:#f5f5f7; --dim:#a3a3ad; --faint:#65656f;
+  --line:rgba(255,255,255,.09); --line-strong:rgba(255,255,255,.16);
+  --accent:#6ea0ff; --accent-ink:#9bbcff;
+  --orb1:#1d3b8a; --orb2:#3a1d6e; --grain:.4;
+}
+html[data-theme="light"]{
+  --bg:#e8eaf0; --bg-soft:#e0e2ea; --surface:rgba(20,22,40,.03);
+  --surface-solid:#f6f7fb; --text:#1b1d27; --dim:#51535f; --faint:#888a96;
+  --line:rgba(20,22,40,.1); --line-strong:rgba(20,22,40,.17);
+  --accent:#3551c9; --accent-ink:#27409c;
+  --orb1:#b3bdff; --orb2:#d0c0ff; --grain:.18;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; transition:background .5s ease,color .5s ease;
+}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--faint)}
+
+/* ---------- NAV ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;backdrop-filter:blur(18px);
+  background:color-mix(in srgb,var(--bg) 72%,transparent);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .5s}
+nav.scrolled{border-color:var(--line)}
+.brand{font-weight:600;font-size:15px;letter-spacing:-.01em;display:flex;gap:9px;align-items:center}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{font-size:13px;color:var(--dim);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--text);cursor:pointer;display:grid;place-items:center;
+  transition:transform .3s,border-color .2s}
+.toggle:hover{transform:rotate(20deg);border-color:var(--accent)}
+.toggle svg{width:17px;height:17px}
+@media(max-width:720px){.nav-links a:not(.cv){display:none}}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;will-change:transform}
+#bgfx{position:absolute;inset:0;width:100%;height:100%;z-index:1;filter:blur(7px);opacity:.85}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;will-change:transform}
+.orb.a{width:560px;height:560px;top:-10%;right:-6%;
+  background:radial-gradient(circle,var(--orb1),transparent 70%);animation:float1 18s ease-in-out infinite}
+.orb.b{width:480px;height:480px;bottom:-16%;left:-4%;
+  background:radial-gradient(circle,var(--orb2),transparent 70%);animation:float2 22s ease-in-out infinite}
+.orb.c{width:360px;height:360px;top:32%;left:38%;opacity:.32;
+  background:radial-gradient(circle,var(--accent),transparent 72%);animation:float3 26s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,50px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,-40px)}}
+@keyframes float3{0%,100%{transform:translate(0,0)}33%{transform:translate(60px,30px)}66%{transform:translate(-30px,-50px)}}
+.hero-fore{position:relative;z-index:2;width:100%}
+.hero h1{font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:-.035em;
+  font-size:clamp(40px,7vw,88px);line-height:1.0;margin:20px 0 26px;max-width:14ch}
+.hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--accent),var(--accent-ink));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{font-size:clamp(16px,2vw,21px);color:var(--dim);max-width:60ch;font-weight:400}
+.scripts{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+.script-chip{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.04em;
+  padding:8px 15px;border:1px solid var(--line);border-radius:999px;color:var(--dim);
+  background:var(--surface);transition:border-color .25s,color .25s}
+.script-chip:hover{border-color:var(--accent);color:var(--text)}
+.hero-meta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+.btn{font-size:13px;font-weight:600;padding:12px 22px;border-radius:999px;
+  display:inline-flex;align-items:center;gap:8px;transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--text);color:var(--bg)}
+.btn-ghost{border:1px solid var(--line-strong);color:var(--text)}
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  z-index:2;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-hint .line{width:1px;height:34px;background:linear-gradient(var(--faint),transparent);
+  animation:drift 2s infinite ease-in-out}
+@keyframes drift{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative;z-index:3;background:var(--bg)}
+.band{padding:120px 0;border-top:1px solid var(--line)}
+.band-soft{background:var(--bg-soft)}
+.sec-head{margin-bottom:60px}
+.sec-head h2{font-family:"Space Grotesk",sans-serif;font-size:clamp(26px,3.6vw,42px);
+  font-weight:700;letter-spacing:-.02em;margin-top:10px}
+.sec-head p{color:var(--dim);max-width:56ch;margin-top:14px;font-size:15px}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- PROFILE ---------- */
+.profile{display:grid;grid-template-columns:auto 1fr;gap:54px;align-items:center}
+.avatar{width:200px;height:200px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(160deg,var(--accent),var(--orb2));padding:2px;
+  box-shadow:0 30px 70px -30px var(--accent)}
+.avatar img,.avatar .fallback{width:100%;height:100%;border-radius:50%;object-fit:cover;
+  transition:transform .6s;background:var(--surface-solid)}
+.avatar:hover img{transform:scale(1.04)}
+.avatar .fallback{display:none;place-items:center;font-family:"Space Grotesk",sans-serif;
+  font-size:60px;font-weight:700;color:var(--accent)}
+.quote{font-family:"Space Grotesk",sans-serif;font-size:clamp(20px,2.6vw,30px);
+  font-weight:500;line-height:1.32;letter-spacing:-.01em}
+.quote span{color:var(--accent)}
+.profile small{display:block;margin-top:22px;color:var(--dim);font-size:14px;line-height:1.6;max-width:54ch}
+@media(max-width:720px){.profile{grid-template-columns:1fr;text-align:center;gap:30px}
+  .avatar{margin:0 auto;width:160px;height:160px}.profile small{margin-left:auto;margin-right:auto}}
+
+/* ---------- WORK TIMELINE ---------- */
+.cat{margin-bottom:64px}
+.cat-label{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:26px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.cat-label span{color:var(--faint)}
+.job{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:24px 0;
+  border-bottom:1px solid var(--line);transition:background .3s}
+.job:last-child{border-bottom:none}
+.job:hover{background:var(--surface)}
+.job-when{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);padding-top:4px}
+.job-org{font-size:13px;color:var(--dim);margin-top:6px}
+.job h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.job .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  letter-spacing:.05em;color:var(--accent);border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 10px;margin-top:10px;margin-right:6px}
+.job p{color:var(--dim);font-size:14.5px;margin-top:12px;line-height:1.6;max-width:62ch}
+.job ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.job li{color:var(--dim);font-size:14px;line-height:1.55;padding-left:18px;position:relative;max-width:62ch}
+.job li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;
+  border-radius:50%;background:var(--accent);opacity:.8}
+.metric{color:var(--text);font-weight:600}
+@media(max-width:720px){.job{grid-template-columns:1fr;gap:8px}.job-when{padding-top:0}}
+
+/* ---------- PUBLICATIONS ---------- */
+.pub{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--line)}
+.pub:first-of-type{border-top:none}
+.pub-status{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;color:var(--accent)}
+.pub h4{font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.4}
+.pub .venue{color:var(--dim);font-size:13.5px;margin-top:6px}
+.pub .authors{color:var(--faint);font-size:12.5px;margin-top:4px;font-style:italic}
+@media(max-width:720px){.pub{grid-template-columns:1fr;gap:6px}}
+
+/* ---------- PROJECTS ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.pcard{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface-solid);
+  display:flex;flex-direction:column;transition:transform .35s,border-color .35s,box-shadow .35s}
+.pcard:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 36px 70px -34px rgba(0,0,0,.55)}
+.pcover{position:relative;aspect-ratio:16/9;width:100%;overflow:hidden}
+.pcover svg{width:100%;height:100%;display:block}
+.pc-over{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;
+  justify-content:space-between;pointer-events:none}
+.pc-metric{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:30px;color:#fff;
+  letter-spacing:-.02em;text-shadow:0 2px 24px rgba(0,0,0,.35);align-self:flex-start}
+.pc-domain{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.92)}
+.pc-body{padding:24px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pc-when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint)}
+.pc-body h3{font-size:19px;font-weight:600;letter-spacing:-.01em;line-height:1.32}
+.pc-org{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:2px}
+.pc-body p{font-size:14px;color:var(--dim);line-height:1.6;flex:1}
+.pc-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.pc-tags span{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--dim);
+  border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+@media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+
+/* ---------- DATASETS ---------- */
+.ds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.ds-card{border:1px solid var(--line);border-radius:18px;padding:28px;background:var(--surface);
+  transition:transform .3s,border-color .3s;position:relative;overflow:hidden}
+.ds-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.ds-card .num{font-family:"Space Grotesk",sans-serif;font-size:34px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+.ds-card h4{font-size:17px;font-weight:600;margin:14px 0 8px;letter-spacing:-.01em}
+.ds-card p{font-size:13.5px;color:var(--dim);line-height:1.55}
+.ds-card .doi{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);margin-top:16px;
+  display:flex;align-items:center;gap:6px}
+.ds-card .badge{position:absolute;top:22px;right:22px;font-family:"IBM Plex Mono",monospace;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+
+/* ---------- SKILLS BANNER ---------- */
+.marquee{overflow:hidden;position:relative;padding:14px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;gap:20px;width:max-content;animation:scroll 38s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee.rev .track{animation-direction:reverse;animation-duration:44s}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.logo-chip{display:flex;align-items:center;gap:12px;padding:14px 22px;
+  border:1px solid var(--line);border-radius:14px;background:var(--surface-solid);
+  white-space:nowrap;flex-shrink:0}
+.logo-chip img{width:26px;height:26px;object-fit:contain}
+html[data-theme="light"] .logo-chip img.invert{filter:none}
+html[data-theme="dark"] .logo-chip img.dark-needs-light{filter:invert(1) brightness(1.6)}
+.logo-chip span{font-size:14px;font-weight:500;letter-spacing:-.01em}
+.logo-chip .txtlogo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;color:var(--accent)}
+.skill-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px;margin-top:54px}
+.skill-cat h5{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.skill-cat p{font-size:14px;color:var(--dim);line-height:1.7}
+
+/* ---------- EDUCATION ---------- */
+.edu{display:grid;grid-template-columns:1fr auto;gap:20px;padding:22px 0;border-top:1px solid var(--line);align-items:baseline}
+.edu:first-of-type{border-top:none}
+.edu h4{font-size:17px;font-weight:600}
+.edu .deg{color:var(--dim);font-size:14px;margin-top:4px}
+.edu .honor{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--accent);border:1px solid var(--line-strong);border-radius:999px;padding:3px 10px;margin-top:8px}
+.edu .yr{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--faint)}
+@media(max-width:560px){.edu{grid-template-columns:1fr}}
+
+/* ---------- CONTACT ---------- */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact h2{font-family:"Space Grotesk",sans-serif;font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:-.02em}
+.contact p{color:var(--dim);margin:18px 0 28px;font-size:15px;line-height:1.6;max-width:42ch}
+.contact-links{display:flex;flex-direction:column;gap:2px}
+.clink{display:flex;justify-content:space-between;align-items:center;padding:18px 4px;
+  border-top:1px solid var(--line);transition:padding .25s}
+.clink:hover{padding-left:14px}
+.clink:last-child{border-bottom:1px solid var(--line)}
+.clink .k{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.clink .v{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px}
+.clink:hover .v{color:var(--accent)}
+@media(max-width:760px){.contact{grid-template-columns:1fr;gap:36px}}
+
+footer{padding:40px 0;border-top:1px solid var(--line);background:var(--bg)}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <!-- Load Inter font script and Tailwind config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary-blue': '#1e90ff', /* Dodger Blue */
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Animated Canvas Background -->
-    <canvas id="bg-canvas"></canvas>
+<!-- NAV -->
+<nav id="nav">
+  <div class="brand"><span class="dot"></span>Christophe Khalil</div>
+  <div class="nav-links">
+    <a href="#pubs">Publications</a>
+    <a href="#projects">Projects</a>
+    <a href="#datasets">Datasets</a>
+    <a href="#contact" class="cv">Contact</a>
+    <button class="toggle" id="themeBtn" aria-label="Toggle light or dark theme"></button>
+  </div>
+</nav>
 
-    <!-- Main Profile Card Container (z-index 10 makes it float above canvas) -->
-    <div class="profile-card w-full max-w-4xl p-8 md:p-12 rounded-xl">
-        
-        <!-- Header and Avatar Section (Flex for responsiveness) -->
-        <header class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-            
-            <!-- Avatar (Placeholder for your Anime picture) -->
-            <div class="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
-                <img 
-                    class="rounded-full w-full h-full object-cover border-4 border-primary-blue" 
-                    src="https://placehold.co/160x160/1e90ff/ffffff?text=CK" 
-                    alt="Christophe Khalil Profile Placeholder"
-                    onerror="this.onerror=null;this.src='https://placehold.co/160x160/1e90ff/ffffff?text=CK';"
-                />
-                <!-- Online Status Dot -->
-                <span class="absolute bottom-1 right-1 block h-5 w-5 rounded-full ring-4 ring-primary-blue bg-green-400"></span>
-            </div>
-
-            <!-- Intro Text -->
-            <div class="text-center md:text-left">
-                <p class="text-lg text-primary-blue font-semibold mb-1 uppercase tracking-wider">MS Computer Science | Researcher</p>
-                <h1 class="text-5xl font-extrabold text-white leading-tight mb-3">Christophe Khalil</h1>
-                
-                <p class="text-xl text-gray-400 max-w-xl">
-                    Specializing in **Data Structures and Algorithms**, **Parallel Computing**, and **Machine & Deep Learning**. Currently focused on developing **Arabic Large Language Models (LLMs)**.
-                </p>
-
-                <!-- Location / Affiliation -->
-                <div class="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-4 text-gray-400">
-                    <span class="flex items-center space-x-1">
-                        <!-- Icon: Academic Cap -->
-                        <svg class="w-5 h-5 text-primary-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l-9 5 9 5 9-5-9-5z"></path></svg>
-                        <span>American University of Beirut (AUB)</span>
-                    </span>
-                    <span class="flex items-center space-x-1">
-                        <!-- Icon: Location Pin -->
-                        <svg class="w-5 h-5 text-primary-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243m10.606 0a9 9 0 11-12.728 0m0 0l-4.243-4.243m10.606 0l4.243-4.243m-10.606 0l4.243 4.243m-10.606 0a9 9 0 110-12.728M12 6.75a3 3 0 110 6 3 3 0 010-6z"></path></svg>
-                        <span>Lebanon</span>
-                    </span>
-                </div>
-            </div>
-        </header>
-
-        <hr class="border-t border-gray-700 my-8">
-
-        <!-- Skills and Focus Area Section -->
-        <section>
-            <h2 class="text-2xl font-bold mb-4 text-white">Core Competencies</h2>
-            <div class="flex flex-wrap gap-3">
-                
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    Parallel Computing
-                </span>
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    Arabic LLMs
-                </span>
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    Deep Learning
-                </span>
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    Data Structures & Algorithms
-                </span>
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    Machine Learning
-                </span>
-                <span class="skill-badge rounded-full px-4 py-2 text-sm font-medium text-primary-blue">
-                    C# & C++
-                </span>
-            </div>
-        </section>
-
-        <hr class="border-t border-gray-700 my-8">
-
-        <!-- Call to Action Footer -->
-        <footer class="text-center">
-            <a href="https://github.com/chriskhalil?tab=repositories" target="_blank" class="bg-primary-blue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 inline-flex items-center shadow-lg shadow-primary-blue/30">
-                <!-- Icon: Code -->
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                Explore My Repositories on GitHub
-            </a>
-        </footer>
-
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg" id="heroBg">
+    <canvas id="bgfx"></canvas>
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+    <div class="orb c"></div>
+  </div>
+  <div class="hero-fore wrap">
+    <p class="eyebrow">ML Researcher · Multilingual &amp; Multimodal LLMs</p>
+    <h1>Language models that stay <em>reliable</em> across languages and modalities.</h1>
+    <p class="lede">I work on post-training, model adaptation, and evaluation — building systems where model behavior is robust, measurable, and interpretable, especially in low-resource and real-world settings.</p>
+    <div class="scripts">
+      <div class="script-chip">Post-training</div>
+      <div class="script-chip">Model adaptation</div>
+      <div class="script-chip">LLM evaluation</div>
+      <div class="script-chip">Multimodal</div>
     </div>
+    <div class="hero-meta">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="#projects" class="btn btn-ghost">View projects</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span class="line"></span>Scroll</div>
+</header>
 
-    <script>
-        /**
-         * Dynamic Star Field Background using HTML Canvas
-         */
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const particleCount = 100;
+<!-- PROFILE -->
+<section class="band">
+  <div class="wrap profile reveal">
+    <div class="avatar">
+      <img src="https://media.licdn.com/dms/image/v2/D4D03AQGpsdf3TM_rEg/profile-displayphoto-scale_400_400/B4DZjrypZ7HYAk-/0/1756302582219?e=1784160000&v=beta&t=oshzXzr6ih6Z8k4PgkVbIEmPuSvKf22028USFrv_yD4"
+           alt="Christophe Khalil" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <div class="fallback">CK</div>
+    </div>
+    <div>
+      <p class="eyebrow">Perspective</p>
+      <p class="quote" style="margin-top:14px">“I'm interested in <span>improving how large models reason, generalize, and remain reliable</span> across real-world languages and modalities.”</p>
+      <small>M.Sc. in Computer Science from the American University of Beirut (100% Graduate Assistant Fellowship), with a DAAD master's exchange at Bonn-Rhein-Sieg University, Germany (Top 3%). Author and lead contributor on published Arabic NLP datasets and benchmarks.</small>
+    </div>
+  </div>
+</section>
 
-        /**
-         * Resizes the canvas to fit the entire window size.
-         * This function is crucial for responsiveness.
-         */
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            // Re-initialize particles to spread them correctly after resize
-            init(); 
-        }
+<!-- PUBLICATIONS -->
+<section class="band" id="pubs">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Peer-reviewed</p>
+      <h2>Publications</h2>
+      <p>Published and in-review work on multilingual datasets, fact-checking, and entity recognition.</p>
+    </div>
+    <div class="reveal">
+      <div class="pub">
+        <div class="pub-status">2026 · In press</div>
+        <div>
+          <h4>ARAFA: An LLM-Generated Arabic Fact-Checking Dataset</h4>
+          <div class="venue">Language Resources and Evaluation, Springer Nature &mdash; accepted.</div>
+          <div class="authors">C. Khalil, S. Elbassuoni, R. Assaf</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-status">2026 · Under review</div>
+        <div>
+          <h4>Title withheld for double-blind review</h4>
+          <div class="venue">Under review, EMNLP 2026.</div>
+          <div class="authors">C. Khalil, A. Mourad, S. Elbassuoni</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-status">2026 · Published</div>
+        <div>
+          <h4>AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</h4>
+          <div class="venue">Dataset, Zenodo &mdash; DOI: 10.5281/zenodo.19468385.</div>
+          <div class="authors">A. Mourad, C. Khalil, A. Hadid</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        /**
-         * Particle Class (Represents a single star/dot)
-         */
-        class Particle {
-            constructor() {
-                // Initialize position randomly within the screen bounds
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                // Random size and speed for a depth effect
-                this.size = Math.random() * 1.5 + 0.5; // Size between 0.5 and 2
-                this.speedX = Math.random() * 0.1 - 0.05; // Slow horizontal drift
-                this.speedY = Math.random() * 0.1 - 0.05; // Slow vertical drift
-                this.opacity = Math.random() * 0.7 + 0.3; // Opacity between 0.3 and 1.0
-            }
-            
-            // Updates particle position for animation
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+<!-- PROJECTS -->
+<section class="band band-soft" id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Selected work</p>
+      <h2>Projects</h2>
+      <p>Ten research and engineering projects spanning multimodal AI, multilingual NLP, clinical systems, recommender systems, and large-scale data infrastructure.</p>
+    </div>
+    <div class="pgrid reveal" id="pgrid"></div>
+  </div>
+</section>
 
-                // Loop particles: if they drift off-screen, reset them to the opposite side
-                if (this.x < 0) this.x = canvas.width;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.y < 0) this.y = canvas.height;
-                if (this.y > canvas.height) this.y = 0;
-            }
+<!-- DATASETS -->
+<section class="band band-soft" id="datasets">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Open benchmarks</p>
+      <h2>Datasets &amp; public baselines</h2>
+      <p>Released, open-access resources built for reproducible evaluation in Arabic and multilingual NLP.</p>
+    </div>
+    <div class="ds-grid reveal">
+      <div class="ds-card">
+        <span class="badge">Zenodo</span>
+        <div class="num">180K+</div>
+        <h4>Arabic Fact-Checking Dataset</h4>
+        <p>Largest open-access, multi-domain Arabic fact-checking benchmark — LLM-generated and validated. New baselines at 77% F1-macro.</p>
+        <div class="doi">Public benchmark · master's thesis</div>
+      </div>
+      <div class="ds-card">
+        <span class="badge">Springer</span>
+        <div class="num">ARAFA</div>
+        <h4>LLM-Generated Fact-Checking Set</h4>
+        <p>Companion dataset to the ARAFA paper for Arabic fact verification, hosted on Zenodo and accepted at LRE.</p>
+        <div class="doi">Dataset: Zenodo</div>
+      </div>
+      <div class="ds-card">
+        <span class="badge">Zenodo</span>
+        <div class="num">NER</div>
+        <h4>AdabNER</h4>
+        <p>Nested named-entity-recognition dataset for Arabic literary archives, with authored annotation guidelines and gold-standard curation.</p>
+        <div class="doi">DOI: 10.5281/zenodo.19468385</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            // Draws the particle on the canvas
-            draw() {
-                ctx.fillStyle = `rgba(30, 144, 255, ${this.opacity})`; // Use the primary-blue color with particle opacity
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+<!-- SKILLS -->
+<section class="band" id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Stack</p>
+      <h2>Tools &amp; frameworks</h2>
+    </div>
+  </div>
 
-        /**
-         * Initializes the array of particles.
-         */
-        function init() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
+  <div class="marquee reveal">
+    <div class="track" id="track1"></div>
+  </div>
+  <div class="marquee rev reveal" style="margin-top:6px">
+    <div class="track" id="track2"></div>
+  </div>
 
-        /**
-         * The main animation loop.
-         */
-        function animate() {
-            // Clear the canvas on each frame (creates the movement effect)
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            
-            // Update and draw each particle
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
-            
-            // Request the next frame for smooth animation
-            requestAnimationFrame(animate);
-        }
+  <div class="wrap">
+    <div class="skill-cats reveal">
+      <div class="skill-cat">
+        <h5>Languages</h5>
+        <p>C++17 · Python · C# (.NET 6) · C99 · SQL</p>
+      </div>
+      <div class="skill-cat">
+        <h5>AI / ML Frameworks</h5>
+        <p>PyTorch · TensorFlow · Hugging Face (Transformers, PEFT) · vLLM · OpenCV · LangChain</p>
+      </div>
+      <div class="skill-cat">
+        <h5>Infrastructure</h5>
+        <p>CUDA · Linux · Docker · Git · Vertex AI · Distributed training</p>
+      </div>
+      <div class="skill-cat">
+        <h5>Research areas</h5>
+        <p>Multimodal &amp; multilingual LLMs · LLM evaluation · RAG · LoRA/PEFT · post-training · benchmark design · object detection</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // --- Event Listeners and Startup ---
-        
-        // Resize canvas whenever the window dimensions change
-        window.addEventListener('resize', resizeCanvas);
-        
-        // Start the animation when the page loads
-        window.onload = function () {
-            resizeCanvas();
-            animate();
-        }
-    </script>
+<!-- TEACHING -->
+<section class="band" id="teaching">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Academic</p>
+      <h2>Teaching</h2>
+    </div>
+    <div class="reveal">
+      <div class="edu">
+        <div>
+          <h4>Instructor &mdash; Optimization and Nonlinear Problems</h4>
+          <div class="deg">Graduate numerical &amp; convex optimization: gradient and Newton methods, linear programming, constrained optimization, SQP. &middot; AUB</div>
+        </div>
+        <div class="yr">2026</div>
+      </div>
+      <div class="edu">
+        <div>
+          <h4>Graduate Teaching Assistant</h4>
+          <div class="deg">Advanced ML, Machine Learning, Operating Systems, Data Structures. Built curriculum for EECE798O &ldquo;Advanced Generative AI&rdquo; and the 2024 Summer AI Academy. &middot; AUB</div>
+        </div>
+        <div class="yr">2022 &mdash; 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="band band-soft" id="education">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Background</p>
+      <h2>Education</h2>
+    </div>
+    <div class="reveal">
+      <div class="edu">
+        <div>
+          <h4>American University of Beirut</h4>
+          <div class="deg">M.Sc. in Computer Science</div>
+          <span class="honor">100% GA Fellowship</span>
+        </div>
+        <div class="yr">2022 — 2024</div>
+      </div>
+      <div class="edu">
+        <div>
+          <h4>Bonn-Rhein-Sieg University of Applied Sciences</h4>
+          <div class="deg">DAAD Master's Exchange · Sankt Augustin, Germany</div>
+          <span class="honor">Top 3%</span>
+        </div>
+        <div class="yr">2020 — 2021</div>
+      </div>
+      <div class="edu">
+        <div>
+          <h4>Notre Dame University — Louaize</h4>
+          <div class="deg">B.Sc. in Computer Science</div>
+          <span class="honor">High Distinction</span>
+        </div>
+        <div class="yr">2015 — 2019</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="band" id="contact">
+  <div class="wrap contact reveal">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2>Let's talk research.</h2>
+      <p>Open to PhD opportunities, research collaborations, and applied ML roles in multilingual and multimodal language modeling.</p>
+      <div class="hero-meta">
+        <a href="mailto:christophe.khalil@outlook.com" class="btn btn-primary">Email me</a>
+      </div>
+    </div>
+    <div class="contact-links">
+      <a class="clink" href="mailto:christophe.khalil@outlook.com">
+        <span class="k">Email</span><span class="v">christophe.khalil@outlook.com →</span>
+      </a>
+      <a class="clink" href="https://linkedin.com/in/christophe-khalil" target="_blank" rel="noopener">
+        <span class="k">LinkedIn</span><span class="v">christophe-khalil →</span>
+      </a>
+      <a class="clink" href="#" target="_blank" rel="noopener">
+        <span class="k">Google Scholar</span><span class="v">Publications →</span>
+      </a>
+      <a class="clink" href="#" target="_blank" rel="noopener">
+        <span class="k">GitHub</span><span class="v">Code &amp; datasets →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Christophe Khalil</span>
+    <span>Updated June 2026 · Beirut, Lebanon</span>
+  </div>
+</footer>
+
+<script>
+/* ---- theme ---- */
+const root=document.documentElement, btn=document.getElementById('themeBtn');
+const sun='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const moon='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+function setIcon(){btn.innerHTML = root.getAttribute('data-theme')==='dark'?moon:sun;}
+setIcon();
+btn.addEventListener('click',()=>{root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');setIcon();});
+
+/* ---- nav scrolled state ---- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>40);});
+
+/* ---- parallax + particles ---- */
+const heroBg=document.getElementById('heroBg');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reduce){
+  let ticking=false;
+  addEventListener('scroll',()=>{
+    if(ticking)return; ticking=true;
+    requestAnimationFrame(()=>{
+      heroBg.style.transform='translateY('+(scrollY*0.35)+'px)';
+      ticking=false;
+    });
+  });
+}
+
+/* soft blurred particle field (Apple-style ambient) */
+(function(){
+  const cv=document.getElementById('bgfx');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  let w,h,parts=[],raf;
+  function accent(){
+    return getComputedStyle(root).getPropertyValue('--accent').trim()||'#6ea0ff';
+  }
+  function hexToRgb(x){
+    x=x.replace('#','');
+    if(x.length===3)x=x.split('').map(c=>c+c).join('');
+    const n=parseInt(x,16);return[n>>16&255,n>>8&255,n&255];
+  }
+  function resize(){
+    w=cv.width=cv.offsetWidth; h=cv.height=cv.offsetHeight;
+    const count=Math.min(46,Math.floor(w/30));
+    parts=Array.from({length:count},()=>({
+      x:Math.random()*w, y:Math.random()*h,
+      r:Math.random()*26+8,
+      vx:(Math.random()-.5)*.18, vy:(Math.random()-.5)*.18,
+      a:Math.random()*.4+.1
+    }));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const[r,g,b]=hexToRgb(accent());
+    for(const p of parts){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<-40)p.x=w+40; if(p.x>w+40)p.x=-40;
+      if(p.y<-40)p.y=h+40; if(p.y>h+40)p.y=-40;
+      const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      grd.addColorStop(0,'rgba('+r+','+g+','+b+','+p.a+')');
+      grd.addColorStop(1,'rgba('+r+','+g+','+b+',0)');
+      ctx.fillStyle=grd;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    }
+    raf=requestAnimationFrame(draw);
+  }
+  resize();
+  addEventListener('resize',resize);
+  if(!reduce) draw();
+  else { // static frame
+    const[r,g,b]=hexToRgb(accent());
+    for(const p of parts){const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      grd.addColorStop(0,'rgba('+r+','+g+','+b+','+p.a+')');grd.addColorStop(1,'rgba('+r+','+g+','+b+',0)');
+      ctx.fillStyle=grd;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}
+  }
+})();
+
+/* ---- reveal ---- */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---- skills logo banner ---- */
+const dev='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
+const si='https://cdn.simpleicons.org/';
+const logos=[
+  {n:'Python',src:dev+'python/python-original.svg'},
+  {n:'PyTorch',src:dev+'pytorch/pytorch-original.svg'},
+  {n:'TensorFlow',src:dev+'tensorflow/tensorflow-original.svg'},
+  {n:'Hugging Face',src:si+'huggingface/FFD21E'},
+  {n:'LangChain',src:si+'langchain/1C3C3C',cls:'dark-needs-light'},
+  {n:'CUDA',src:si+'nvidia/76B900'},
+  {n:'C++',src:dev+'cplusplus/cplusplus-original.svg'},
+  {n:'C#',src:dev+'csharp/csharp-original.svg'},
+  {n:'OpenCV',src:dev+'opencv/opencv-original.svg'},
+  {n:'Docker',src:dev+'docker/docker-original.svg'},
+  {n:'Linux',src:dev+'linux/linux-original.svg'},
+  {n:'Git',src:dev+'git/git-original.svg'},
+  {n:'Vertex AI',src:dev+'googlecloud/googlecloud-original.svg'},
+  {n:'SQL',src:dev+'mysql/mysql-original.svg'},
+  {n:'vLLM',text:true}
+];
+function chip(l){
+  if(l.text) return '<div class="logo-chip"><span class="txtlogo">vLLM</span></div>';
+  const cls=l.cls?(' '+l.cls):'';
+  return '<div class="logo-chip"><img class="'+cls+'" src="'+l.src+'" alt="'+l.n+'" loading="lazy" onerror="this.remove()"><span>'+l.n+'</span></div>';
+}
+const half=logos.map(chip).join('');
+document.getElementById('track1').innerHTML=half+half;
+const rot=[...logos.slice(7),...logos.slice(0,7)];
+const half2=rot.map(chip).join('');
+document.getElementById('track2').innerHTML=half2+half2;
+
+/* ---- projects with generated cover images ---- */
+const ICONS={
+  food:'<path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M7 11V7M10 11V6M13 11V7M16 11V7"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+  book:'<path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M5 4v14"/>',
+  chat:'<path d="M4 5h16v11H9l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+  leaf:'<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M6 18C10 14 14 11 17 9"/>',
+  db:'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3 3 7 3s7-1.3 7-3"/>',
+  heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/>',
+  spark:'<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>',
+  server:'<rect x="4" y="4" width="16" height="6" rx="1"/><rect x="4" y="14" width="16" height="6" rx="1"/><path d="M8 7h.01M8 17h.01"/>'
+};
+const PROJECTS=[
+ {metric:'8K imgs',domain:'Multimodal CV',icon:'food',c1:'#d97706',c2:'#92400e',
+  when:'Jan 2026 — Present',org:'American University of Beirut',
+  title:'Multimodal Dietary Assessment Pipeline',
+  blurb:'Segments food plates into individual ingredients via computer vision and classifies them against structured dietary questionnaires through language reasoning. Multimodal LLMs fine-tuned on a custom 8K-image dataset, deployed as a clinical-dietician support tool.',
+  tags:['Multimodal LLM','Computer Vision','Fine-tuning']},
+ {metric:'46,908',domain:'Multilingual NLP · EMNLP\u201926',icon:'globe',c1:'#3b5bdb',c2:'#5f3dc4',
+  when:'Apr 2025 — May 2026',org:'Independent · Sorbonne / AUB',
+  title:'Multilingual Topic Annotation at Scale',
+  blurb:'Decoupled GPT-4.1 / Claude pipeline labeling 46,908 multilingual Wikipedia lead sections with 31,799 open-vocabulary topics. Validated via embeddings, human audit (\u03ba = 0.94\u20130.98), and Wikidata grounding; zero cross-lingual bias amplification (\u0394AUC \u2248 0).',
+  tags:['Evaluation','Under review · EMNLP 2026']},
+ {metric:'87% F1',domain:'Healthcare NLP',icon:'pulse',c1:'#0d9488',c2:'#0f5e57',
+  when:'Apr 2025 — Apr 2026',org:'AUBMC · Emergency Department',
+  title:'Clinical AI Auditing System',
+  blurb:'Cut post-incident debrief analysis from four weeks to under one day with an automated thematic-analysis pipeline replicating AUBMC\u2019s MCI methodology (WHO AAR guideline). Reached 87% F1 against expert annotations, enabling auditable failure-mode identification.',
+  tags:['Thematic Analysis','Supervisor: Dr. E. Hitti']},
+ {metric:'ACL\u201926',domain:'Arabic NER',icon:'book',c1:'#7c3aed',c2:'#5b21b6',
+  when:'Aug 2025 — Dec 2025',org:'Sorbonne University',
+  title:'AdabNER — Nested NER for Arabic Archives',
+  blurb:'Lead annotator for a nested NER dataset over Arabic literary archives: authored annotation guidelines, led corpus annotation, quality control, and gold-standard curation. Acknowledged contributor in the AdabNER ACL 2026 Main Conference paper.',
+  tags:['Nested NER','Supervisor: Prof. A. Hadid']},
+ {metric:'+32%',domain:'Agentic RAG',icon:'chat',c1:'#e11d48',c2:'#9f1239',
+  when:'Jul 2024 — Dec 2024',org:'AIHub Lab · AUB (Team Lead)',
+  title:'Arabic Medical Q&A Agent',
+  blurb:'Agentic RAG pipeline combining Monte Carlo Tree Search reasoning with semantic reranking, achieving 25% (LLaMA-3.1) and 32% (Qwen-2.5) accuracy gains on Arabic medical MCQ benchmarks. Led the development team.',
+  tags:['MCTS','RAG','Reranking']},
+ {metric:'89% mAP',domain:'Object Detection',icon:'leaf',c1:'#16a34a',c2:'#15803d',
+  when:'Jul 2024 — Dec 2024',org:'AIHub Lab · Dept. of Agriculture',
+  title:'Agricultural Disease Surveillance',
+  blurb:'Dual-target computer-vision system for early-stage detection of plant pathogens and agricultural mites, reaching 89% mAP@0.5 to support field disease surveillance.',
+  tags:['Computer Vision','mAP@0.5']},
+ {metric:'180K+',domain:'Dataset · Zenodo',icon:'db',c1:'#0891b2',c2:'#0e6d82',
+  when:'Aug 2023 — Dec 2024',org:'AUB · Master\u2019s Thesis (GRA)',
+  title:'Arabic Fact-Checking Dataset',
+  blurb:'Largest open-access multi-domain Arabic fact-checking dataset (180K+ claims), LLM-generated and validated, published on Zenodo. Discovered systematic Arabic LLM grammar errors and devised a rule-injection fix; LoRA/PEFT baselines at 77% F1-macro.',
+  tags:['Dataset Design','LoRA / PEFT']},
+ {metric:'RAG',domain:'Mental Health',icon:'heart',c1:'#4f46e5',c2:'#3730a3',
+  when:'Oct 2025 — Jan 2026',org:'Freelance · Mental Health Tech',
+  title:'Therapeutic AI Chatbot',
+  blurb:'CBT/DBT intervention chatbot with RAG over enterprise medical APIs, built on a multi-tier clinical framework with real-time crisis detection and MCTS-driven response validation.',
+  tags:['RAG','Clinical Safety','MCTS']},
+ {metric:'+40% CTR',domain:'Recommender · Amazon',icon:'spark',c1:'#ea580c',c2:'#b94308',
+  when:'Aug 2023 — Oct 2023',org:'Amazon · Remote (Luxembourg)',
+  title:'Outfit Recommendation Assistant',
+  blurb:'LLM assistant (LLaMA-2, GPT-3.5) converting natural-language inputs into structured personalized search queries, with an embedding-based retrieval and ranking pipeline. 40% lift in CTR and conversion in A/B tests versus baseline search.',
+  tags:['Recommender','Retrieval']},
+ {metric:'42 TB',domain:'Data Infra · C++/C#',icon:'server',c1:'#475569',c2:'#2f3947',
+  when:'Sep 2021 — Sep 2022',org:'Reliable Design Services · USA',
+  title:'Fault-Tolerant Medical ETL Pipeline',
+  blurb:'ETL pipeline in C++/C# migrating 42 TB of medical and clinical records, with multistage error recovery and checksum-verified zero data loss.',
+  tags:['C++ / C#','ETL','Reliability']}
+];
+function cover(p,i){
+  const id='g'+i, did='d'+i;
+  return '<svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'
+    +'<stop offset="0" stop-color="'+p.c1+'"/><stop offset="1" stop-color="'+p.c2+'"/></linearGradient>'
+    +'<pattern id="'+did+'" width="22" height="22" patternUnits="userSpaceOnUse">'
+    +'<circle cx="2" cy="2" r="1.4" fill="#fff" opacity="0.14"/></pattern></defs>'
+    +'<rect width="400" height="225" fill="url(#'+id+')"/>'
+    +'<rect width="400" height="225" fill="url(#'+did+')"/>'
+    +'<g transform="translate(250,46) scale(5.6)" fill="none" stroke="#fff" stroke-width="1.4" '
+    +'stroke-linecap="round" stroke-linejoin="round" opacity="0.20">'+ICONS[p.icon]+'</g>'
+    +'<rect width="400" height="225" fill="#000" opacity="0.06"/></svg>';
+}
+const grid=document.getElementById('pgrid');
+if(grid){
+  grid.innerHTML=PROJECTS.map((p,i)=>(
+    '<article class="pcard">'
+    +'<div class="pcover">'+cover(p,i)
+    +'<div class="pc-over"><div class="pc-metric">'+p.metric+'</div><div class="pc-domain">'+p.domain+'</div></div></div>'
+    +'<div class="pc-body">'
+    +'<div class="pc-when">'+p.when+'</div>'
+    +'<div class="pc-org">'+p.org+'</div>'
+    +'<h3>'+p.title+'</h3>'
+    +'<p>'+p.blurb+'</p>'
+    +'<div class="pc-tags">'+p.tags.map(t=>'<span>'+t+'</span>').join('')+'</div>'
+    +'</div></article>'
+  )).join('');
+}
+</script>
 </body>
 </html>
