@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1B5843">
+<meta name="theme-color" content="#0F1E36">
 <title>Christophe Khalil · AI Researcher</title>
 <meta name="description" content="Christophe Khalil: AI researcher in multilingual and multimodal language models, Arabic NLP, evaluation and alignment. Applying for PhD positions and available for consulting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,9 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F4F6F4; --surface:#FFFFFF; --ink:#15201B; --muted:#4F5C56; --line:#D5DCD7;
-  --accent:#1B5843; --accent-ink:#FFFFFF; --accent-soft:#E0ECE5;
-  --band:#13281F; --band-ink:#EAF2ED; --band-muted:#B0C7BC; --band-line:#2C453A; --band-accent:#8FD4B5; --band-accent-ink:#0F1F18;
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#0F1B2D; --muted:#4A5568; --line:#D9DFE7;
+  --accent:#1E4B8F; --accent-ink:#FFFFFF; --accent-soft:#E4ECF7;
+  --band:#0F1E36; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#263A5A; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
   --sans:"Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
   --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
   --ar-sans:"IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, sans-serif;
@@ -27,16 +27,16 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0F1512; --surface:#151D19; --ink:#E5EBE7; --muted:#A3B0A9; --line:#2A3631;
-    --accent:#8ACFB1; --accent-ink:#0F1512; --accent-soft:#1A2B24;
-    --band:#172C24; --band-ink:#EAF2ED; --band-muted:#AFC6BB; --band-line:#2E4A3E; --band-accent:#8FD4B5;
+    --bg:#0B1220; --surface:#121B2C; --ink:#E6ECF4; --muted:#A3B1C4; --line:#24324A;
+    --accent:#8DB8EC; --accent-ink:#0B1626; --accent-soft:#182640;
+    --band:#12203A; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#2A3F62; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0F1512; --surface:#151D19; --ink:#E5EBE7; --muted:#A3B0A9; --line:#2A3631;
-  --accent:#8ACFB1; --accent-ink:#0F1512; --accent-soft:#1A2B24;
-  --band:#172C24; --band-ink:#EAF2ED; --band-muted:#AFC6BB; --band-line:#2E4A3E; --band-accent:#8FD4B5;
+  --bg:#0B1220; --surface:#121B2C; --ink:#E6ECF4; --muted:#A3B1C4; --line:#24324A;
+    --accent:#8DB8EC; --accent-ink:#0B1626; --accent-soft:#182640;
+    --band:#12203A; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#2A3F62; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -54,8 +54,8 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{text-decoration-thickness:2px}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(1.25rem, 4vw, 2.5rem)}
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:1rem;top:1rem;z-index:100;background:var(--surface);padding:.6rem 1rem}
+.skip{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip-path:none;top:1rem;inset-inline-start:1rem;z-index:100;background:var(--surface);padding:.6rem 1rem;border-radius:8px}
 
 /* Header */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:30;background:var(--bg)}
@@ -98,7 +98,7 @@ nav.main a:hover,nav.main a.active{color:var(--ink);background:var(--accent-soft
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0, 1fr) minmax(220px, 320px);gap:clamp(2rem, 6vw, 5rem);align-items:center}
 .hero h1{margin:0;font-size:clamp(2.8rem, 7.4vw, 5.6rem);line-height:.98;letter-spacing:-.04em;font-weight:700}
 .view[lang="ar"] .hero h1{font-family:var(--ar-display);font-size:clamp(2.4rem, 6.4vw, 4.8rem);line-height:1.35}
-.alt-name{display:block;font-family:var(--ar-display);font-weight:600;color:var(--accent);font-size:clamp(1.6rem, 3.8vw, 2.6rem);line-height:1.5;margin-top:.4rem}
+.alt-name{display:block;width:fit-content;max-width:100%;font-family:var(--ar-display);font-weight:600;color:var(--accent);font-size:clamp(1.6rem, 3.8vw, 2.6rem);line-height:1.5;margin-top:.4rem}
 .view[lang="ar"] .alt-name{font-family:var(--sans);font-weight:600;letter-spacing:-.02em;line-height:1.2;margin-top:.2rem}
 .hero .role{margin:1.4rem 0 0;font-size:clamp(1.05rem, 1.8vw, 1.2rem);font-weight:600}
 .hero .role span{color:var(--muted);font-weight:400}
@@ -238,6 +238,28 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
   .tl,.pubs li,.service{break-inside:avoid}
 }
 
+/* Paper links */
+.interest-links{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:.9rem 0 0 !important}
+.interest-links a,.pub-links a,.pub-links button{display:inline-flex;align-items:center;gap:.35rem;font-weight:600;font-size:.93rem;text-decoration:none}
+.interest-links a svg,.pub-links svg{width:15px;height:15px;flex:none}
+.interest-links a:hover{text-decoration:underline}
+.pub-links{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0 0}
+.pub-links a,.pub-links button{font:inherit;font-size:.9rem;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.35rem .75rem;min-height:38px;cursor:pointer;transition:border-color .15s}
+.pub-links a:hover,.pub-links button:hover{border-color:var(--accent)}
+.pub.has-poster{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:1.5rem 2rem;align-items:start}
+.poster-thumb{padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);cursor:zoom-in;box-shadow:0 10px 24px -14px rgba(15,27,45,.45);transition:transform .2s, border-color .2s}
+.poster-thumb:hover{transform:translateY(-2px);border-color:var(--accent)}
+.poster-thumb img{width:100%;height:auto}
+@media (max-width: 640px){.pub.has-poster{grid-template-columns:1fr}.poster-thumb{width:140px}}
+.poster-dialog{width:min(980px, 94vw);max-height:92vh;padding:0;border:0;border-radius:14px;background:var(--surface);color:var(--ink);overflow:hidden}
+.poster-dialog::backdrop{background:rgba(8,14,26,.78)}
+.poster-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.2rem;padding:.7rem 1rem;border-bottom:1px solid var(--line)}
+.poster-bar p{margin:0;font-weight:600;flex:1 1 16rem;font-size:.95rem}
+.poster-bar a{font-weight:600;font-size:.92rem}
+.poster-close{font:inherit;font-weight:600;font-size:.92rem;min-height:40px;padding:.4rem .9rem;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.poster-body{overflow:auto;max-height:calc(92vh - 62px)}
+.poster-body img{width:100%;height:auto}
+
 </style>
 </head>
 <body>
@@ -305,9 +327,9 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="research" data-key="research" aria-labelledby="research-h">
       <div class="sec-head"><h2 id="research-h">Research</h2><p>I work on post-training, alignment, reasoning and evaluation for models that serve many languages and modalities, including low-resource ones like Arabic. These are the questions I want to pursue in a PhD.</p></div>
       <div class="interests">
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>Post-training and alignment</h3><p>What instruction tuning costs a model in knowledge. My AKBC 2026 paper shows base models can beat their instruction-tuned counterparts on factual recall.</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>Post-training and alignment</h3><p>What instruction tuning costs a model in knowledge. My AKBC 2026 paper shows base models can beat their instruction-tuned counterparts on factual recall.</p><p class="interest-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Read the paper<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 7h14M5 7l-2.5 6a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0zM8 21h8"/></svg><h3>Reasoning and evaluation</h3><p>Evaluation we can trust: self-preference bias in LLM judges, and benchmarks that separate real visual recognition from memorized knowledge.</p></div>
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>Arabic and low-resource NLP</h3><p>Datasets, models and failure analysis for Arabic, from fact-checking (ARAFA) to nested entities in literary archives (AdabNER).</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>Arabic and low-resource NLP</h3><p>Datasets, models and failure analysis for Arabic, from fact-checking (ARAFA) to nested entities in literary archives (AdabNER).</p><p class="interest-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">ARAFA pre-print<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">AdabNER dataset<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/><circle cx="12" cy="12" r="2.2"/></svg><h3>Self-evolving agents</h3><p>How agents that update their own memory, prompts or tools can keep respecting the norms of their context, and how to detect early when they stop.</p></div>
       </div>
     </section>
@@ -315,26 +337,35 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="publications" data-key="publications" aria-labelledby="pubs-h">
       <div class="sec-head"><h2 id="pubs-h">Publications</h2><p>Peer-reviewed papers and public datasets.</p></div>
       <ol class="pubs indent">
-        <li>
-          <div class="pub-meta"><span class="tag award">3rd place, LM-KBC 2026</span><span class="tag">Oral presentation</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-          <p class="pub-venue"><em>AKBC 2026</em>, co-located with EMNLP 2026, pp. 518–526</p>
+        <li class="pub has-poster">
+          <div>
+            <div class="pub-meta"><span class="tag award">3rd place, LM-KBC 2026</span><span class="tag">Oral presentation</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+            <p class="pub-venue"><em>AKBC 2026</em>, co-located with EMNLP 2026, pp. 518–526</p>
+            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Paper<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><button type="button" data-open-poster><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>View poster</button></p>
+          </div>
+          <button type="button" class="poster-thumb" data-open-poster aria-label="View poster"><img src="./img/lmkbc-poster.jpg" alt="" width="2000" height="2828" loading="lazy" decoding="async"></button>
+        </li>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">Journal</span><span class="tag">First author</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
+            <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. In press.</p>
+            <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">Pre-print<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">Dataset<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
         </li>
-        <li>
-          <div class="pub-meta"><span class="tag">Journal</span><span class="tag">First author</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
-          <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. In press.</p>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">Dataset</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
+            <p class="pub-venue">Zenodo. Related paper at the ACL 2026 Main Conference.</p>
+            <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">Dataset<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
-        </li>
-        <li>
-          <div class="pub-meta"><span class="tag">Dataset</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
-          <p class="pub-venue">Zenodo. Related paper at the ACL 2026 Main Conference.</p>
-          <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener" dir="ltr">doi.org/10.5281/zenodo.19468385</a></p>
         </li>
       </ol>
     </section>
@@ -409,6 +440,15 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     </section>
   </div>
 </main>
+
+<dialog class="poster-dialog" aria-label="Conference poster, AKBC 2026 / LM-KBC Shared Task">
+  <div class="poster-bar">
+    <p>Conference poster, AKBC 2026 / LM-KBC Shared Task</p>
+    <a href="./img/lmkbc-poster.jpg" target="_blank" rel="noopener">Open full size</a>
+    <button type="button" class="poster-close" data-close-poster>Close</button>
+  </div>
+  <div class="poster-body"><img data-src="./img/lmkbc-poster.jpg" alt="Conference poster, AKBC 2026 / LM-KBC Shared Task" width="2000" height="2828"></div>
+</dialog>
 
 <footer id="contact" data-key="contact">
   <div class="wrap">
@@ -493,9 +533,9 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="fr-research" data-key="research" aria-labelledby="fr-research-h">
       <div class="sec-head"><h2 id="fr-research-h">Recherche</h2><p>Je travaille sur le post-entraînement, l’alignement, le raisonnement et l’évaluation de modèles multilingues et multimodaux, y compris pour des langues peu dotées comme l’arabe. Ce sont les questions que je souhaite approfondir en doctorat.</p></div>
       <div class="interests">
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>Post-entraînement et alignement</h3><p>Ce que l’ajustement aux instructions coûte à un modèle en connaissances. Mon article à AKBC 2026 montre que les modèles de base peuvent surpasser leurs versions ajustées sur le rappel factuel.</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>Post-entraînement et alignement</h3><p>Ce que l’ajustement aux instructions coûte à un modèle en connaissances. Mon article à AKBC 2026 montre que les modèles de base peuvent surpasser leurs versions ajustées sur le rappel factuel.</p><p class="interest-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Lire l’article<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 7h14M5 7l-2.5 6a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0zM8 21h8"/></svg><h3>Raisonnement et évaluation</h3><p>Une évaluation digne de confiance&nbsp;: le biais d’auto-préférence des LLM utilisés comme juges, et des benchmarks qui distinguent la vraie reconnaissance visuelle des connaissances mémorisées.</p></div>
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>Arabe et langues peu dotées</h3><p>Jeux de données, modèles et analyse des erreurs pour l’arabe, de la vérification des faits (ARAFA) aux entités imbriquées dans les archives littéraires (AdabNER).</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>Arabe et langues peu dotées</h3><p>Jeux de données, modèles et analyse des erreurs pour l’arabe, de la vérification des faits (ARAFA) aux entités imbriquées dans les archives littéraires (AdabNER).</p><p class="interest-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">Prépublication ARAFA<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">Jeu de données AdabNER<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/><circle cx="12" cy="12" r="2.2"/></svg><h3>Agents auto-évolutifs</h3><p>Comment des agents qui modifient leur propre mémoire, leurs prompts ou leurs outils peuvent continuer à respecter les normes de leur contexte, et comment détecter tôt le moment où ils cessent de le faire.</p></div>
       </div>
     </section>
@@ -503,26 +543,35 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="fr-publications" data-key="publications" aria-labelledby="fr-pubs-h">
       <div class="sec-head"><h2 id="fr-pubs-h">Publications</h2><p>Articles évalués par les pairs et jeux de données publics.</p></div>
       <ol class="pubs indent">
-        <li>
-          <div class="pub-meta"><span class="tag award">3<sup>e</sup> place, LM-KBC 2026</span><span class="tag">Présentation orale</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-          <p class="pub-venue"><em>AKBC 2026</em>, organisé avec EMNLP 2026, p.&nbsp;518–526</p>
+        <li class="pub has-poster">
+          <div>
+            <div class="pub-meta"><span class="tag award">3<sup>e</sup> place, LM-KBC 2026</span><span class="tag">Présentation orale</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+            <p class="pub-venue"><em>AKBC 2026</em>, organisé avec EMNLP 2026, p.&nbsp;518–526</p>
+            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Article<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><button type="button" data-open-poster><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Voir le poster</button></p>
+          </div>
+          <button type="button" class="poster-thumb" data-open-poster aria-label="Voir le poster"><img src="./img/lmkbc-poster.jpg" alt="" width="2000" height="2828" loading="lazy" decoding="async"></button>
+        </li>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">Revue</span><span class="tag">Premier auteur</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
+            <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. Sous presse.</p>
+            <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">Prépublication<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">Jeu de données<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
         </li>
-        <li>
-          <div class="pub-meta"><span class="tag">Revue</span><span class="tag">Premier auteur</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
-          <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. Sous presse.</p>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">Jeu de données</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
+            <p class="pub-venue">Zenodo. Article associé à la conférence principale d’ACL 2026.</p>
+            <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">Jeu de données<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
-        </li>
-        <li>
-          <div class="pub-meta"><span class="tag">Jeu de données</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
-          <p class="pub-venue">Zenodo. Article associé à la conférence principale d’ACL 2026.</p>
-          <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener" dir="ltr">doi.org/10.5281/zenodo.19468385</a></p>
         </li>
       </ol>
     </section>
@@ -597,6 +646,15 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     </section>
   </div>
 </main>
+
+<dialog class="poster-dialog" aria-label="Poster de conférence, AKBC 2026 / LM-KBC">
+  <div class="poster-bar">
+    <p>Poster de conférence, AKBC 2026 / LM-KBC</p>
+    <a href="./img/lmkbc-poster.jpg" target="_blank" rel="noopener">Ouvrir en grand</a>
+    <button type="button" class="poster-close" data-close-poster>Fermer</button>
+  </div>
+  <div class="poster-body"><img data-src="./img/lmkbc-poster.jpg" alt="Poster de conférence, AKBC 2026 / LM-KBC" width="2000" height="2828"></div>
+</dialog>
 
 <footer id="fr-contact" data-key="contact">
   <div class="wrap">
@@ -681,9 +739,9 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="ar-research" data-key="research" aria-labelledby="ar-research-h">
       <div class="sec-head"><h2 id="ar-research-h">البحث</h2><p>أعمل على ما بعد التدريب والمواءمة والاستدلال والتقييم في النماذج متعددة اللغات والوسائط، بما فيها اللغات منخفضة الموارد كالعربية. هذه هي الأسئلة التي أطمح إلى متابعتها في الدكتوراه.</p></div>
       <div class="interests">
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>ما بعد التدريب والمواءمة</h3><p>ما الذي يكلّفه الضبط بالتعليمات من معرفة النموذج. تُظهر ورقتي في AKBC 2026 أن النماذج الأساسية قد تتفوّق على نظيراتها المضبوطة بالتعليمات في استرجاع الحقائق.</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg><h3>ما بعد التدريب والمواءمة</h3><p>ما الذي يكلّفه الضبط بالتعليمات من معرفة النموذج. تُظهر ورقتي في AKBC 2026 أن النماذج الأساسية قد تتفوّق على نظيراتها المضبوطة بالتعليمات في استرجاع الحقائق.</p><p class="interest-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">اقرأ الورقة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 7h14M5 7l-2.5 6a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0zM8 21h8"/></svg><h3>الاستدلال والتقييم</h3><p>تقييم يمكن الوثوق به: انحياز النماذج اللغوية لمخرجاتها حين تُستخدم حَكَمًا، ومعايير تفصل التعرّف البصري الحقيقي عن المعرفة المحفوظة.</p></div>
-        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>العربية واللغات منخفضة الموارد</h3><p>مجموعات بيانات ونماذج وتحليل للأخطاء في العربية، من تدقيق الحقائق (ARAFA) إلى الكيانات المتداخلة في الأرشيفات الأدبية (AdabNER).</p></div>
+        <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.5 5.5 7M11 5c-.8 3.6-3.4 6.4-7 8M13 21l4-9 4 9M14.4 18h5.2"/></svg><h3>العربية واللغات منخفضة الموارد</h3><p>مجموعات بيانات ونماذج وتحليل للأخطاء في العربية، من تدقيق الحقائق (ARAFA) إلى الكيانات المتداخلة في الأرشيفات الأدبية (AdabNER).</p><p class="interest-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">النسخة الأولية من ARAFA<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">مجموعة بيانات AdabNER<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p></div>
         <div class="interest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/><circle cx="12" cy="12" r="2.2"/></svg><h3>الوكلاء ذاتيّو التطوّر</h3><p>كيف يمكن لوكلاء يحدّثون ذاكرتهم أو تعليماتهم أو أدواتهم أن يواصلوا احترام أعراف سياقهم، وكيف نكتشف مبكرًا متى يتوقّفون عن ذلك.</p></div>
       </div>
     </section>
@@ -691,26 +749,35 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     <section class="block" id="ar-publications" data-key="publications" aria-labelledby="ar-pubs-h">
       <div class="sec-head"><h2 id="ar-pubs-h">المنشورات</h2><p>أوراق محكّمة ومجموعات بيانات مفتوحة.</p></div>
       <ol class="pubs indent">
-        <li>
-          <div class="pub-meta"><span class="tag award">المركز الثالث، LM-KBC 2026</span><span class="tag">عرض شفهي</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-          <p class="pub-venue"><em>AKBC 2026</em>، بالتزامن مع EMNLP 2026، ص 518–526</p>
+        <li class="pub has-poster">
+          <div>
+            <div class="pub-meta"><span class="tag award">المركز الثالث، LM-KBC 2026</span><span class="tag">عرض شفهي</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+            <p class="pub-venue"><em>AKBC 2026</em>، بالتزامن مع EMNLP 2026، ص 518–526</p>
+            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">الورقة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">الشيفرة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><button type="button" data-open-poster><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>عرض الملصق</button></p>
+          </div>
+          <button type="button" class="poster-thumb" data-open-poster aria-label="عرض الملصق"><img src="./img/lmkbc-poster.jpg" alt="" width="2000" height="2828" loading="lazy" decoding="async"></button>
+        </li>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">مجلة علمية</span><span class="tag">المؤلف الأول</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
+            <p class="pub-venue"><em>Language Resources and Evaluation</em>، دار Springer Nature. قيد النشر.</p>
+            <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">النسخة الأولية<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">مجموعة البيانات<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">الشيفرة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
         </li>
-        <li>
-          <div class="pub-meta"><span class="tag">مجلة علمية</span><span class="tag">المؤلف الأول</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">ARAFA: An LLM Generated Arabic Fact-Checking Dataset</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b>, Elbassuoni, S., and Assaf, R. (2026)</span></p>
-          <p class="pub-venue"><em>Language Resources and Evaluation</em>، دار Springer Nature. قيد النشر.</p>
+        <li class="pub">
+          <div>
+            <div class="pub-meta"><span class="tag">مجموعة بيانات</span></div>
+            <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
+            <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
+            <p class="pub-venue">Zenodo. ورقة مرتبطة في المؤتمر الرئيسي ACL 2026.</p>
+            <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">مجموعة البيانات<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
+          </div>
           
-        </li>
-        <li>
-          <div class="pub-meta"><span class="tag">مجموعة بيانات</span></div>
-          <p class="pub-title"><span lang="en" dir="ltr">AdabNER: Arabic Digital Archive Books with Nested Entity Recognition</span></p>
-          <p class="pub-authors"><span lang="en" dir="ltr">Mourad, A., <b>Khalil, C.</b>, and Hadid, A. (2026)</span></p>
-          <p class="pub-venue">Zenodo. ورقة مرتبطة في المؤتمر الرئيسي ACL 2026.</p>
-          <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener" dir="ltr">doi.org/10.5281/zenodo.19468385</a></p>
         </li>
       </ol>
     </section>
@@ -785,6 +852,15 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
     </section>
   </div>
 </main>
+
+<dialog class="poster-dialog" aria-label="الملصق العلمي، AKBC 2026 / LM-KBC">
+  <div class="poster-bar">
+    <p>الملصق العلمي، AKBC 2026 / LM-KBC</p>
+    <a href="./img/lmkbc-poster.jpg" target="_blank" rel="noopener">فتح بالحجم الكامل</a>
+    <button type="button" class="poster-close" data-close-poster>إغلاق</button>
+  </div>
+  <div class="poster-body"><img data-src="./img/lmkbc-poster.jpg" alt="الملصق العلمي، AKBC 2026 / LM-KBC" width="2000" height="2828"></div>
+</dialog>
 
 <footer id="ar-contact" data-key="contact">
   <div class="wrap">
@@ -895,7 +971,7 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
   /* Hero background: letters from Arabic, French and English drifting and linking up */
   var GLYPHS = 'a b c d e f g h k l m n p r s t w x y z é è à ç ê ô ï ا ب ت ج ح د ر س ش ص ط ع غ ف ق ك ل م ن ه و ي'.split(' ');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var accent = '#1B5843';
+  var accent = '#1E4B8F';
   function readAccent(){ accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || accent; }
 
   function Field(canvas){
@@ -980,93 +1056,30 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fields.forEach(function(f){ f.draw(false); }); });
 
 
-  /* Colors from the photo, in the spirit of Android's Material You:
-     find the photo's most prominent colorful hue, then build every
-     light and dark color of the site from that one hue. */
-  function toLin(c){ c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
-  function toGamma(c){ return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
-  function rgbToOklch(R, G, B){
-    var r = toLin(R), g = toLin(G), b = toLin(B);
-    var l = Math.cbrt(0.4122214708*r + 0.5363325363*g + 0.0514459929*b);
-    var m = Math.cbrt(0.2119034982*r + 0.6806995451*g + 0.1073969566*b);
-    var s = Math.cbrt(0.0883024619*r + 0.2817188376*g + 0.6299787005*b);
-    var L = 0.2104542553*l + 0.7936177850*m - 0.0040720468*s;
-    var A = 1.9779984951*l - 2.4285922050*m + 0.4505937099*s;
-    var Bb = 0.0259040371*l + 0.7827717662*m - 0.8086757660*s;
-    return { L: L, C: Math.sqrt(A*A + Bb*Bb), H: (Math.atan2(Bb, A) * 180 / Math.PI + 360) % 360 };
-  }
-  function oklchToLin(L, C, H){
-    var h = H * Math.PI / 180, a = C * Math.cos(h), b = C * Math.sin(h);
-    var l = L + 0.3963377774*a + 0.2158037573*b, m = L - 0.1055613458*a - 0.0638541728*b, s = L - 0.0894841775*a - 1.2914855480*b;
-    l = l*l*l; m = m*m*m; s = s*s*s;
-    return [4.0767416621*l - 3.3077115913*m + 0.2309699292*s, -1.2684380046*l + 2.6097574011*m - 0.3413193965*s, -0.0041960863*l - 0.7034186147*m + 1.7076147010*s];
-  }
-  function hex(L, C, H){
-    var rgb = oklchToLin(L, C, H), tries = 0;
-    while (tries++ < 40 && rgb.some(function(v){ return v < -0.0005 || v > 1.0005; })) { C *= 0.92; rgb = oklchToLin(L, C, H); }
-    return '#' + rgb.map(function(v){ var x = Math.round(Math.max(0, Math.min(1, toGamma(Math.max(0, v)))) * 255); return (x < 16 ? '0' : '') + x.toString(16); }).join('');
-  }
-  function sourceColor(img){
-    var S = 64, cv = document.createElement('canvas'); cv.width = S; cv.height = S;
-    var cx = cv.getContext('2d', {willReadFrequently: true});
-    cx.drawImage(img, 0, 0, S, S);
-    var d = cx.getImageData(0, 0, S, S).data;
-    var bins = [], i, k, n = 0;
-    for (i = 0; i < 36; i++) bins.push({w: 0, c: 0, n: 0, sx: 0, sy: 0});
-    for (i = 0; i < d.length; i += 4) {
-      if (d[i+3] < 128) continue;
-      var o = rgbToOklch(d[i], d[i+1], d[i+2]);
-      if (o.L < 0.2 || o.L > 0.95 || o.C < 0.03) continue;
-      var bin = bins[Math.floor(o.H / 10) % 36], rad = o.H * Math.PI / 180;
-      bin.w += o.C; bin.c += o.C; bin.n++; bin.sx += Math.cos(rad) * o.C; bin.sy += Math.sin(rad) * o.C; n++;
-    }
-    if (n < S * S * 0.02) return null;
-    var best = -1, bestScore = 0;
-    for (i = 0; i < 36; i++) {
-      var score = bins[(i + 35) % 36].w * 0.5 + bins[i].w + bins[(i + 1) % 36].w * 0.5;
-      if (score > bestScore) { bestScore = score; best = i; }
-    }
-    var sx = 0, sy = 0, sc = 0, sn = 0;
-    for (k = -1; k <= 1; k++) { var bb = bins[(best + k + 36) % 36]; sx += bb.sx; sy += bb.sy; sc += bb.c; sn += bb.n; }
-    return { H: (Math.atan2(sy, sx) * 180 / Math.PI + 360) % 360, C: sc / sn };
-  }
-  function applyPalette(src){
-    var H = src.H, c = Math.max(0.05, Math.min(0.13, src.C));
-    var light = {
-      bg: hex(.975,.008,H), surface: hex(.995,.003,H), ink: hex(.22,.025,H), muted: hex(.47,.03,H), line: hex(.885,.018,H),
-      accent: hex(.45,c,H), 'accent-ink': '#ffffff', 'accent-soft': hex(.93,.04,H),
-      band: hex(.27,Math.min(c,.06),H), 'band-ink': hex(.96,.012,H), 'band-muted': hex(.82,.03,H), 'band-line': hex(.38,.045,H),
-      'band-accent': hex(.84,Math.min(c,.12),H), 'band-accent-ink': hex(.2,.03,H)
-    };
-    var dark = {
-      bg: hex(.17,.01,H), surface: hex(.21,.013,H), ink: hex(.93,.01,H), muted: hex(.75,.02,H), line: hex(.31,.02,H),
-      accent: hex(.8,Math.min(c,.11),H), 'accent-ink': hex(.18,.02,H), 'accent-soft': hex(.27,.035,H),
-      band: hex(.24,Math.min(c,.05),H), 'band-ink': hex(.95,.012,H), 'band-muted': hex(.8,.03,H), 'band-line': hex(.36,.04,H),
-      'band-accent': hex(.84,Math.min(c,.12),H), 'band-accent-ink': hex(.2,.03,H)
-    };
-    function decl(v){ return Object.keys(v).map(function(k){ return '--' + k + ':' + v[k]; }).join(';'); }
-    var el = document.getElementById('photo-palette');
-    if (!el) { el = document.createElement('style'); el.id = 'photo-palette'; document.head.appendChild(el); }
-    el.textContent = ':root{' + decl(light) + '}' +
-      '@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){' + decl(dark) + '}}' +
-      ':root[data-theme="dark"]{' + decl(dark) + '}';
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', light.accent);
-    readAccent(); fields.forEach(function(f){ f.draw(false); });
-  }
-  try { var cached = JSON.parse(read('ck-palette') || 'null'); if (cached && typeof cached.H === 'number') applyPalette(cached); } catch(e){}
-
-  var paletteDone = false;
+  // Fixed business palette: clear any colors saved by the earlier photo-based version
+  try { localStorage.removeItem('ck-palette'); } catch(e){}
   Array.prototype.forEach.call(document.querySelectorAll('img.photo'), function(img){
-    function ok(){
-      img.classList.add('loaded');
-      if (paletteDone) return; paletteDone = true;
-      try { var src = sourceColor(img); if (src) { applyPalette(src); store('ck-palette', JSON.stringify(src)); } }
-      catch(e) { /* photo can't be read (opened as a local file): keep the default colors */ }
-    }
+    function ok(){ img.classList.add('loaded'); }
     function fail(){ img.remove(); }
     if (img.complete) { if (img.naturalWidth) ok(); else fail(); }
     else { img.addEventListener('load', ok); img.addEventListener('error', fail); }
+  });
+
+  // Poster viewer
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-poster]'), function(btn){
+    btn.addEventListener('click', function(){
+      var dlg = btn.closest('.view').querySelector('.poster-dialog');
+      var img = dlg.querySelector('img[data-src]');
+      if (img) { img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
+      if (dlg.showModal) dlg.showModal(); else window.open('./img/lmkbc-poster.jpg', '_blank');
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.poster-dialog'), function(dlg){
+    dlg.querySelector('[data-close-poster]').addEventListener('click', function(){ dlg.close(); });
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.poster-thumb img'), function(img){
+    img.addEventListener('error', function(){ img.closest('.poster-thumb').remove(); });
   });
 
   // Pick the starting language: link, then saved choice, then browser language
