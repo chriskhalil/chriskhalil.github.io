@@ -15,6 +15,7 @@
   --accent:#1E4B8F; --accent-ink:#FFFFFF; --accent-soft:#E4ECF7;
   --band:#0F1E36; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#263A5A; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
   --oral-bg:#F5B83D; --oral-ink:#3A2400; --oral-line:#E0A12A; --agent:#D98E04; --lang-en:#1E4B8F; --lang-fr:#0E7C6B; --lang-ar:#B0541C; --lang-mix:#7B3FA6;
+  --lift:0 1px 2px rgba(15,27,45,.05), 0 14px 30px -20px rgba(15,27,45,.45);
   --sans:"Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
   --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
   --ar-sans:"IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, sans-serif;
@@ -32,14 +33,16 @@
     --accent:#8DB8EC; --accent-ink:#0B1626; --accent-soft:#182640;
     --band:#12203A; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#2A3F62; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
     --oral-bg:#EDB042; --oral-ink:#241600; --oral-line:#EDB042; --agent:#F3C969; --lang-en:#8DB8EC; --lang-fr:#6CCFBE; --lang-ar:#EFA06B; --lang-mix:#C9A2EE;
+    --lift:0 1px 2px rgba(0,0,0,.3), 0 16px 34px -20px rgba(0,0,0,.8);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0B1220; --surface:#121B2C; --ink:#E6ECF4; --muted:#A3B1C4; --line:#24324A;
-    --accent:#8DB8EC; --accent-ink:#0B1626; --accent-soft:#182640;
-    --band:#12203A; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#2A3F62; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
+  --accent:#8DB8EC; --accent-ink:#0B1626; --accent-soft:#182640;
+  --band:#12203A; --band-ink:#EEF3FA; --band-muted:#AFC0D6; --band-line:#2A3F62; --band-accent:#8DB8EC; --band-accent-ink:#0B1626;
   --oral-bg:#EDB042; --oral-ink:#241600; --oral-line:#EDB042; --agent:#F3C969; --lang-en:#8DB8EC; --lang-fr:#6CCFBE; --lang-ar:#EFA06B; --lang-mix:#C9A2EE;
+  --lift:0 1px 2px rgba(0,0,0,.3), 0 16px 34px -20px rgba(0,0,0,.8);
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -47,6 +50,9 @@ body,header.top,.band,.path,.interest,.btn,.tag,.chips span{transition:backgroun
 html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top, 0px) + 84px);-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{text-wrap:balance}
+p{text-wrap:pretty}
+::selection{background:var(--accent);color:var(--accent-ink)}
 .view[hidden]{display:none}
 .view[lang="ar"]{font-family:var(--ar-sans);font-size:1.075rem;line-height:1.8}
 .view[lang="ar"] h1,.view[lang="ar"] h2,.view[lang="ar"] h3,.view[lang="ar"] .brand{letter-spacing:0 !important}
@@ -69,8 +75,10 @@ body.scrolled header.top{border-bottom-color:var(--line)}
 .brand .mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--sans);font-size:.85rem;font-weight:700;letter-spacing:.02em}
 nav.main{margin-inline-start:auto;display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none}
 nav.main::-webkit-scrollbar{display:none}
-nav.main a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500;padding:.5rem .65rem;border-radius:8px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}
-nav.main a:hover,nav.main a.active{color:var(--ink);background:var(--accent-soft)}
+nav.main a{position:relative;color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500;padding:.5rem .65rem;border-radius:8px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;transition:color .15s, background-color .15s}
+nav.main a:hover{color:var(--ink);background:var(--accent-soft)}
+nav.main a.active{color:var(--ink)}
+nav.main a.active::after{content:"";position:absolute;inset-inline:.65rem;bottom:5px;height:2px;border-radius:2px;background:var(--accent)}
 .langs{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:2px;background:var(--surface);flex:none}
 .langs button{font:inherit;font-size:.85rem;font-weight:600;min-width:44px;min-height:38px;padding:0 .55rem;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}
 .langs button[lang="ar"]{font-family:var(--ar-sans)}
@@ -78,16 +86,20 @@ nav.main a:hover,nav.main a.active{color:var(--ink);background:var(--accent-soft
 .langs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:46px;padding:.65rem 1.2rem;border-radius:11px;font:inherit;font-weight:600;font-size:.97rem;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface);transition:border-color .15s, background .15s}
 .btn:hover{border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .btn.primary:hover{filter:brightness(1.08)}
 .btn svg{width:18px;height:18px;flex:none}
 .btn.icon{padding:0;width:46px}
 .top .btn{min-height:42px;padding:.45rem 1rem;font-size:.92rem;white-space:nowrap}
 @media (max-width: 1180px){
+  .hdr-btn{display:none}
+}
+@media (max-width: 980px){
   .top .wrap{flex-wrap:wrap;gap:0 .6rem;padding-top:.45rem}
   .langs{margin-inline-start:auto}
   nav.main{order:3;width:100%;margin-inline-start:-.7rem}
-  .hdr-btn{display:none}
+  html{scroll-padding-top:calc(env(safe-area-inset-top, 0px) + 128px)}
 }
 
 /* Hero */
@@ -128,8 +140,8 @@ nav.main a:hover,nav.main a.active{color:var(--ink);background:var(--accent-soft
 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px var(--accent-soft)}
 
 .paths{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
-.path{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 1.6rem;border-radius:16px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .15s}
-.path:hover{border-color:var(--accent)}
+.path{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 1.6rem;border-radius:16px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .15s, box-shadow .2s}
+.path:hover{border-color:var(--accent);box-shadow:var(--lift)}
 .path h2{margin:0;font-size:1.15rem;letter-spacing:-.01em}
 .path p{margin:0;color:var(--muted);font-size:1rem}
 .path .go{margin-top:auto;padding-top:.5rem;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:.4rem}
@@ -159,11 +171,14 @@ section.block{padding:clamp(4rem, 9vw, 6.5rem) 0 0}
 .pubs{list-style:none;margin:0;padding:0}
 .pubs li{padding:1.6rem 0;border-top:1px solid var(--line)}
 .pubs li:last-child{border-bottom:1px solid var(--line)}
+/* The awarded paper sits in its own card, with its poster and talk photo */
+.pubs li.featured{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:clamp(1.25rem, 3vw, 1.9rem);margin-bottom:1rem}
 .pub-meta{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.7rem}
 .tag{font-size:.84rem;font-weight:500;padding:.22rem .65rem;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
 .tag.award{background:var(--accent);color:var(--accent-ink)}
 .tag.oral{background:var(--oral-bg);color:var(--oral-ink);box-shadow:inset 0 0 0 1px var(--oral-line);font-weight:600}
 .pub-title{font-family:var(--serif);font-size:clamp(1.2rem, 2.2vw, 1.4rem);line-height:1.35;margin:0 0 .45rem;font-weight:500}
+.featured .pub-title{font-size:clamp(1.3rem, 2.5vw, 1.6rem)}
 .view[lang="ar"] .pub-title [lang="en"]{font-family:var(--serif)}
 .pub-authors{margin:0;color:var(--muted);font-size:.97rem}
 .pub-authors b{color:var(--ink);font-weight:600}
@@ -224,11 +239,12 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
 .contact-list a{font-weight:600;word-break:break-word}
 .copy{font:inherit;font-size:.85rem;font-weight:500;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:.25rem .65rem;cursor:pointer;margin-inline-start:.5rem;min-height:34px}
 .copy:hover{color:var(--ink);border-color:var(--accent)}
+.copy.done{color:var(--accent);border-color:var(--accent)}
 .fineprint{margin-top:2.5rem;color:var(--muted);font-size:.88rem}
 @media (max-width: 760px){.foot{grid-template-columns:1fr}}
 
 @media print{
-  header.top,.cta-row,.copy,.paths,.band-cta,.hero-bg{display:none !important}
+  header.top,.cta-row,.copy,.paths,.band-cta,.hero-bg,.lightbox,.media-item .zoom{display:none !important}
   body{background:#fff;color:#000;font-size:11pt}
   .band{background:#fff;color:#000;padding:1.5rem 0}
   .band .sec-head p,.service p,.service .proof{color:#333}
@@ -244,13 +260,61 @@ footer{margin-top:clamp(4rem, 9vw, 6.5rem);padding:3rem 0 3.5rem;border-top:1px 
 .pub-links{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0 0}
 .pub-links a,.pub-links button{font:inherit;font-size:.9rem;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.35rem .75rem;min-height:38px;cursor:pointer;transition:border-color .15s}
 .pub-links a:hover,.pub-links button:hover{border-color:var(--accent)}
-.pub.has-poster{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:1.5rem 2rem;align-items:start}
-.poster-thumb{display:block;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);box-shadow:0 10px 24px -14px rgba(15,27,45,.45);transition:transform .2s, border-color .2s}
-.poster-thumb:hover{transform:translateY(-2px);border-color:var(--accent)}
+.featured .pub-links a{background:var(--bg)}
+
+/* Poster and talk photo, side by side under the paper. Both open in the viewer. */
+.pub-media{--mh:clamp(150px, 18vw, 196px);display:flex;flex-wrap:wrap;align-items:flex-start;gap:1rem;margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.media-item{display:flex;flex-direction:column;gap:.5rem;text-decoration:none;color:var(--muted);font-size:.9rem;font-weight:500;cursor:zoom-in;max-width:100%}
+.media-item .frame-m{position:relative;display:block;height:var(--mh);max-width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--accent-soft);transition:border-color .15s, box-shadow .2s}
+.media-item.poster .frame-m{aspect-ratio:9934/14044}
+.media-item.talk .frame-m{aspect-ratio:3/2}
+.media-item.talk img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.media-item.talk.ready img{opacity:1}
+.media-item:hover .frame-m{border-color:var(--accent);box-shadow:var(--lift)}
+.media-item:hover .media-cap{color:var(--ink)}
+.media-item:focus-visible{outline:none}
+.media-item:focus-visible .frame-m{outline:3px solid var(--accent);outline-offset:3px}
+.media-item .zoom{position:absolute;top:.5rem;inset-inline-end:.5rem;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:color-mix(in srgb, var(--surface) 90%, transparent);color:var(--ink);box-shadow:0 2px 8px rgba(15,27,45,.2);opacity:0;transition:opacity .15s}
+.media-item .zoom svg{width:17px;height:17px}
+.media-item:hover .zoom,.media-item:focus-visible .zoom{opacity:1}
+@media (hover: none){.media-item .zoom{opacity:1}}
 /* Poster thumbnail: loads ./img/lmkbc-poster-thumb.jpg, and falls back to the poster itself (see the poster script).
    To keep your old inline thumbnail instead, paste your original .thumb-img line over this one. */
-.thumb-img{display:block;aspect-ratio:9934/14044;background:var(--accent-soft) url(./img/lmkbc-poster-thumb.jpg) center top/cover no-repeat}
-@media (max-width: 640px){.pub.has-poster{grid-template-columns:1fr}.poster-thumb{width:140px}}
+.thumb-img{display:block;width:100%;height:100%;background:var(--accent-soft) url(./img/lmkbc-poster-thumb.jpg) center top/cover no-repeat}
+@media (max-width: 640px){.pub-media{--mh:128px;gap:.75rem}}
+
+/* Image viewer */
+.lightbox{position:fixed;inset:0;width:100%;height:100%;max-width:100%;max-height:100%;margin:0;padding:0;border:0;background:transparent;color:#EEF3FA;overflow:hidden}
+.lightbox::backdrop{background:rgba(5,10,20,.9);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lb-stage{position:absolute;inset:0;display:grid;grid-template-rows:auto minmax(0, 1fr);gap:.6rem;padding:calc(env(safe-area-inset-top, 0px) + .9rem) clamp(.9rem, 6vw, 5rem) calc(env(safe-area-inset-bottom, 0px) + 1.2rem)}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-inline:calc(-1 * clamp(0rem, 4vw, 3.6rem))}
+.lb-actions{display:flex;gap:.5rem}
+.lb-count{font-size:.92rem;color:#AFC0D6;font-variant-numeric:tabular-nums}
+.lb-figure{margin:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;touch-action:pan-y}
+.lb-figure img{max-width:100%;max-height:calc(100vh - 10rem);max-height:calc(100dvh - 10rem);width:auto;height:auto;object-fit:contain;border-radius:8px;background:#0F1E36;box-shadow:0 30px 80px -30px rgba(0,0,0,.85);transition:opacity .2s}
+.lb-figure img.loading{opacity:0}
+.lb-figure figcaption{font-size:1rem;text-align:center;max-width:60ch;color:#EEF3FA}
+.lb-btn{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;border:1px solid rgba(238,243,250,.22);background:rgba(238,243,250,.08);color:#EEF3FA;cursor:pointer;text-decoration:none;transition:background-color .15s, border-color .15s}
+.lb-btn:hover{background:rgba(238,243,250,.16);border-color:rgba(238,243,250,.45)}
+.lb-btn svg{width:20px;height:20px}
+.lightbox :focus-visible{outline-color:#8DB8EC}
+.lb-nav{position:absolute;top:50%;margin-top:-22px}
+.lb-prev{inset-inline-start:clamp(.4rem, 1.5vw, 1.2rem)}
+.lb-next{inset-inline-end:clamp(.4rem, 1.5vw, 1.2rem)}
+html[dir="rtl"] .lb-nav svg{transform:scaleX(-1)}
+.lightbox.single .lb-nav,.lightbox.single .lb-count{visibility:hidden}
+html.lb-lock{overflow:hidden}
+@media (max-width: 640px){
+  .lb-stage{padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 4.8rem)}
+  .lb-figure img{max-height:calc(100vh - 14rem);max-height:calc(100dvh - 14rem)}
+  .lb-nav{top:auto;margin:0;bottom:calc(env(safe-area-inset-bottom, 0px) + 1rem)}
+  .lb-prev{inset-inline-start:calc(50% - 52px)}
+  .lb-next{inset-inline-end:calc(50% - 52px)}
+}
+@media (prefers-reduced-motion: no-preference){
+  .lightbox[open] .lb-figure{animation:lb-in .24s cubic-bezier(.2,.7,.2,1)}
+  @keyframes lb-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+}
 
 /* Theme toggle */
 .icon-btn{display:inline-grid;place-items:center;width:42px;height:42px;flex:none;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s}
@@ -285,8 +349,7 @@ html[dir="rtl"] .progress span{transform-origin:right center}
 
 /* Teaching */
 .teach-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:1rem}
-.teach-card{display:flex;flex-direction:column;gap:.45rem;padding:1.5rem;border-radius:16px;background:var(--surface);border:1px solid var(--line);transition:border-color .2s, transform .2s}
-.teach-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.teach-card{display:flex;flex-direction:column;gap:.45rem;padding:1.5rem;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
 .teach-card > svg{width:28px;height:28px;color:var(--accent);margin-bottom:.4rem}
 .teach-when{margin:0;font-size:.88rem;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
 .teach-card h3{margin:0;font-size:1.08rem;letter-spacing:-.01em;line-height:1.4}
@@ -301,8 +364,8 @@ html[dir="rtl"] .progress span{transform-origin:right center}
 .view[lang="ar"] .pricing-h{font-family:var(--ar-display)}
 .pricing-sub{margin:.4rem 0 2rem;color:var(--band-muted);max-width:60ch}
 .plans{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:1rem;align-items:stretch}
-.plan{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:1.7rem 1.6rem 1.6rem;border-radius:16px;border:1px solid var(--band-line);background:color-mix(in srgb, var(--band-ink) 4%, transparent);transition:transform .2s, border-color .2s}
-.plan:hover{transform:translateY(-3px);border-color:var(--band-accent)}
+.plan{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:1.7rem 1.6rem 1.6rem;border-radius:16px;border:1px solid var(--band-line);background:color-mix(in srgb, var(--band-ink) 4%, transparent);transition:border-color .2s}
+.plan:hover{border-color:var(--band-accent)}
 .plan.rec{border-color:var(--band-accent);background:color-mix(in srgb, var(--band-accent) 11%, transparent)}
 .plan .badge{position:absolute;top:-12px;inset-inline-start:1.4rem;background:var(--band-accent);color:var(--band-accent-ink);font-size:.8rem;font-weight:700;padding:.2rem .75rem;border-radius:999px}
 .plan h4{margin:0;font-size:1.18rem;letter-spacing:-.01em}
@@ -404,15 +467,16 @@ html[dir="rtl"] .progress span{transform-origin:right center}
     <section class="block" id="publications" data-key="publications" aria-labelledby="pubs-h">
       <div class="sec-head"><h2 id="pubs-h">Publications</h2><p>Peer-reviewed papers and public datasets.</p></div>
       <ol class="pubs indent">
-        <li class="pub has-poster">
-          <div>
-            <div class="pub-meta"><span class="tag award">3rd place, LM-KBC 2026</span><span class="tag oral">Oral presentation</span></div>
-            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-            <p class="pub-venue"><em>AKBC 2026</em>, co-located with EMNLP 2026, pp. 518–526</p>
-            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Paper<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>View poster</a></p>
+        <li class="pub featured">
+          <div class="pub-meta"><span class="tag award">3rd place, LM-KBC 2026</span><span class="tag oral">Oral presentation</span></div>
+          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+          <p class="pub-venue"><em>AKBC 2026</em>, co-located with EMNLP 2026, pp. 518–526</p>
+          <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Paper<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>View poster</a></p>
+          <div class="pub-media">
+            <a class="media-item poster" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox data-caption="Paper poster, LM-KBC 2026"><span class="frame-m"><span class="thumb-img"></span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">Poster</span></a>
+            <a class="media-item talk" href="./img/research_presentation.jpg" target="_blank" rel="noopener" data-talk data-lightbox data-caption="Presenting the paper at AKBC 2026"><span class="frame-m"><img src="./img/research_presentation.jpg" alt="" loading="lazy" decoding="async"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">Presenting at AKBC 2026</span></a>
           </div>
-          <a class="poster-thumb" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link aria-label="View poster"><span class="thumb-img"></span></a>
         </li>
         <li class="pub">
           <div>
@@ -422,7 +486,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. In press.</p>
             <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">Pre-print<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">Dataset<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
         <li class="pub">
           <div>
@@ -432,7 +495,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue">Zenodo. Related paper at the ACL 2026 Main Conference.</p>
             <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">Dataset<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
       </ol>
     </section>
@@ -554,7 +616,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
       </div>
       <ul class="contact-list">
         <li><span class="k">Email</span><span><a href="mailto:christophe.khalil@outlook.com" dir="ltr">christophe.khalil@outlook.com</a><button class="copy" type="button" aria-label="Copy email address" data-copy="Copy" data-copied="Copied">Copy</button></span></li>
-        <li><span class="k">Phone</span><a href="tel:+96178859143" dir="ltr">+961 78 859 143</a></li>
         <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/christophe-khalil/" target="_blank" rel="noopener" dir="ltr">christophe-khalil</a></li>
         <li><span class="k">GitHub</span><a href="https://github.com/chriskhalil" target="_blank" rel="noopener" dir="ltr">chriskhalil</a></li>
         <li><span class="k">Based in</span><span>Beirut, Lebanon</span></li>
@@ -638,15 +699,16 @@ html[dir="rtl"] .progress span{transform-origin:right center}
     <section class="block" id="fr-publications" data-key="publications" aria-labelledby="fr-pubs-h">
       <div class="sec-head"><h2 id="fr-pubs-h">Publications</h2><p>Articles évalués par les pairs et jeux de données publics.</p></div>
       <ol class="pubs indent">
-        <li class="pub has-poster">
-          <div>
-            <div class="pub-meta"><span class="tag award">3<sup>e</sup> place, LM-KBC 2026</span><span class="tag oral">Présentation orale</span></div>
-            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-            <p class="pub-venue"><em>AKBC 2026</em>, organisé avec EMNLP 2026, p.&nbsp;518–526</p>
-            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Article<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Voir le poster</a></p>
+        <li class="pub featured">
+          <div class="pub-meta"><span class="tag award">3<sup>e</sup> place, LM-KBC 2026</span><span class="tag oral">Présentation orale</span></div>
+          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+          <p class="pub-venue"><em>AKBC 2026</em>, organisé avec EMNLP 2026, p.&nbsp;518–526</p>
+          <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">Article<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Voir le poster</a></p>
+          <div class="pub-media">
+            <a class="media-item poster" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox data-caption="Poster de l’article, LM-KBC 2026"><span class="frame-m"><span class="thumb-img"></span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">Poster</span></a>
+            <a class="media-item talk" href="./img/research_presentation.jpg" target="_blank" rel="noopener" data-talk data-lightbox data-caption="Présentation de l’article à AKBC 2026"><span class="frame-m"><img src="./img/research_presentation.jpg" alt="" loading="lazy" decoding="async"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">Présentation à AKBC 2026</span></a>
           </div>
-          <a class="poster-thumb" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link aria-label="Voir le poster"><span class="thumb-img"></span></a>
         </li>
         <li class="pub">
           <div>
@@ -656,7 +718,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue"><em>Language Resources and Evaluation</em>, Springer Nature. Sous presse.</p>
             <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">Prépublication<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">Jeu de données<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">Code<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
         <li class="pub">
           <div>
@@ -666,7 +727,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue">Zenodo. Article associé à la conférence principale d’ACL 2026.</p>
             <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">Jeu de données<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
       </ol>
     </section>
@@ -788,7 +848,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
       </div>
       <ul class="contact-list">
         <li><span class="k">Courriel</span><span><a href="mailto:christophe.khalil@outlook.com" dir="ltr">christophe.khalil@outlook.com</a><button class="copy" type="button" aria-label="Copier l’adresse courriel" data-copy="Copier" data-copied="Copié">Copier</button></span></li>
-        <li><span class="k">Téléphone</span><a href="tel:+96178859143" dir="ltr">+961 78 859 143</a></li>
         <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/christophe-khalil/" target="_blank" rel="noopener" dir="ltr">christophe-khalil</a></li>
         <li><span class="k">GitHub</span><a href="https://github.com/chriskhalil" target="_blank" rel="noopener" dir="ltr">chriskhalil</a></li>
         <li><span class="k">Basé à</span><span>Beyrouth, Liban</span></li>
@@ -872,15 +931,16 @@ html[dir="rtl"] .progress span{transform-origin:right center}
     <section class="block" id="ar-publications" data-key="publications" aria-labelledby="ar-pubs-h">
       <div class="sec-head"><h2 id="ar-pubs-h">المنشورات</h2><p>أوراق محكّمة ومجموعات بيانات مفتوحة.</p></div>
       <ol class="pubs indent">
-        <li class="pub has-poster">
-          <div>
-            <div class="pub-meta"><span class="tag award">المركز الثالث، LM-KBC 2026</span><span class="tag oral">عرض شفهي</span></div>
-            <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
-            <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
-            <p class="pub-venue"><em>AKBC 2026</em>، بالتزامن مع EMNLP 2026، ص 518–526</p>
-            <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">الورقة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">الشيفرة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>عرض الملصق</a></p>
+        <li class="pub featured">
+          <div class="pub-meta"><span class="tag award">المركز الثالث، LM-KBC 2026</span><span class="tag oral">عرض شفهي</span></div>
+          <p class="pub-title"><span lang="en" dir="ltr">The Instruction Tax on Factual Recall: Base Models Can Beat Their Instruction-Tuned Counterparts</span></p>
+          <p class="pub-authors"><span lang="en" dir="ltr"><b>Khalil, C.</b> and Mourad, A. (2026)</span></p>
+          <p class="pub-venue"><em>AKBC 2026</em>، بالتزامن مع EMNLP 2026، ص 518–526</p>
+          <p class="pub-links"><a href="https://aclanthology.org/2026.akbc-1.40/" target="_blank" rel="noopener">الورقة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://aclanthology.org/2026.akbc-1.40.pdf" target="_blank" rel="noopener">PDF<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/aiamourad/lm-kbc-2026" target="_blank" rel="noopener">الشيفرة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>عرض الملصق</a></p>
+          <div class="pub-media">
+            <a class="media-item poster" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link data-lightbox data-caption="ملصق الورقة، LM-KBC 2026"><span class="frame-m"><span class="thumb-img"></span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">الملصق</span></a>
+            <a class="media-item talk" href="./img/research_presentation.jpg" target="_blank" rel="noopener" data-talk data-lightbox data-caption="أثناء تقديم الورقة في AKBC 2026"><span class="frame-m"><img src="./img/research_presentation.jpg" alt="" loading="lazy" decoding="async"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></span></span><span class="media-cap">العرض في AKBC 2026</span></a>
           </div>
-          <a class="poster-thumb" href="./img/lmkbc-poster.png" target="_blank" rel="noopener" data-poster-link aria-label="عرض الملصق"><span class="thumb-img"></span></a>
         </li>
         <li class="pub">
           <div>
@@ -890,7 +950,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue"><em>Language Resources and Evaluation</em>، دار Springer Nature. قيد النشر.</p>
             <p class="pub-links"><a href="https://doi.org/10.21203/rs.3.rs-7335564/v1" target="_blank" rel="noopener">النسخة الأولية<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://huggingface.co/datasets/ChristopheKhalil/ARAFA" target="_blank" rel="noopener">مجموعة البيانات<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a><a href="https://github.com/chriskhalil/ARAFA" target="_blank" rel="noopener">الشيفرة<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
         <li class="pub">
           <div>
@@ -900,7 +959,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
             <p class="pub-venue">Zenodo. ورقة مرتبطة في المؤتمر الرئيسي ACL 2026.</p>
             <p class="pub-links"><a href="https://doi.org/10.5281/zenodo.19468385" target="_blank" rel="noopener">مجموعة البيانات<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></p>
           </div>
-          
         </li>
       </ol>
     </section>
@@ -1022,7 +1080,6 @@ html[dir="rtl"] .progress span{transform-origin:right center}
       </div>
       <ul class="contact-list">
         <li><span class="k">البريد الإلكتروني</span><span><a href="mailto:christophe.khalil@outlook.com" dir="ltr">christophe.khalil@outlook.com</a><button class="copy" type="button" aria-label="نسخ عنوان البريد الإلكتروني" data-copy="نسخ" data-copied="تم النسخ">نسخ</button></span></li>
-        <li><span class="k">الهاتف</span><a href="tel:+96178859143" dir="ltr">+961 78 859 143</a></li>
         <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/christophe-khalil/" target="_blank" rel="noopener" dir="ltr">christophe-khalil</a></li>
         <li><span class="k">GitHub</span><a href="https://github.com/chriskhalil" target="_blank" rel="noopener" dir="ltr">chriskhalil</a></li>
         <li><span class="k">المقر</span><span>بيروت، لبنان</span></li>
@@ -1032,10 +1089,29 @@ html[dir="rtl"] .progress span{transform-origin:right center}
   </div>
 </footer>
 </div>
+
+<dialog class="lightbox" aria-label="Image viewer">
+  <div class="lb-stage">
+    <div class="lb-bar">
+      <span class="lb-count" dir="ltr" aria-live="polite"></span>
+      <div class="lb-actions">
+        <a class="lb-btn lb-open" href="#" target="_blank" rel="noopener" aria-label="Open full size" title="Open full size"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+        <button type="button" class="lb-btn lb-close" aria-label="Close" title="Close" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+    <figure class="lb-figure"><img alt=""><figcaption></figcaption></figure>
+    <button type="button" class="lb-btn lb-nav lb-prev" aria-label="Previous image" title="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button type="button" class="lb-btn lb-nav lb-next" aria-label="Next image" title="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+  </div>
+</dialog>
 <button type="button" class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
 <script>
 /* ==== PRICES, in US dollars. Change a number here and every price on the site updates, in all three languages. ==== */
 var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency: 'USD' };
+
+/* ==== TALK PHOTO. Put your photo in the img folder as research_presentation (.jpg, .jpeg, .png or .webp).
+   The site finds whichever one exists. If there is none, the photo slot hides itself. ==== */
+var TALK_PHOTO = './img/research_presentation';
 
 (function(){
   var root = document.documentElement;
@@ -1047,14 +1123,21 @@ var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency:
     ar: 'كريستوف خليل · باحث في الذكاء الاصطناعي'
   };
   var TOP_LABEL = { en: 'Back to top', fr: 'Haut de page', ar: 'العودة إلى الأعلى' };
+  var LB_TEXT = {
+    en: { viewer: 'Image viewer', close: 'Close', prev: 'Previous image', next: 'Next image', open: 'Open full size' },
+    fr: { viewer: 'Visionneuse d’images', close: 'Fermer', prev: 'Image précédente', next: 'Image suivante', open: 'Ouvrir en taille réelle' },
+    ar: { viewer: 'عارض الصور', close: 'إغلاق', prev: 'الصورة السابقة', next: 'الصورة التالية', open: 'فتح بالحجم الكامل' }
+  };
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var views = {};
   Array.prototype.forEach.call(document.querySelectorAll('.view'), function(v){ views[v.getAttribute('data-view')] = v; });
   var current = 'en', activeKey = null, scenes = [];
+  var dlg = document.querySelector('.lightbox');
   function each(sel, fn, ctx){ Array.prototype.forEach.call((ctx || document).querySelectorAll(sel), fn); }
   function store(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
   function read(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
   function prefix(l){ return l === 'en' ? '' : l + '-'; }
+  function tidyMedia(){ each('.pub-media', function(m){ if (!m.querySelector('.media-item')) m.remove(); }); }
 
   /* ---------- Theme ---------- */
   var mqDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
@@ -1098,6 +1181,13 @@ var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency:
     root.lang = l; root.dir = (l === 'ar') ? 'rtl' : 'ltr';
     document.title = TITLES[l];
     if (toTop) toTop.setAttribute('aria-label', TOP_LABEL[l]);
+    if (dlg) {
+      var T = LB_TEXT[l];
+      dlg.setAttribute('aria-label', T.viewer);
+      [['.lb-close', T.close], ['.lb-prev', T.prev], ['.lb-next', T.next], ['.lb-open', T.open]].forEach(function(p){
+        var b = dlg.querySelector(p[0]); if (b) { b.setAttribute('aria-label', p[1]); b.title = p[1]; }
+      });
+    }
     each('[data-set-lang]', function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === l ? 'true' : 'false'); });
     if (opts.save) store('ck-lang', l);
     scenes.forEach(function(s){ s.refresh(); });
@@ -1158,14 +1248,19 @@ var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency:
   }
 
   /* ---------- Copy email ---------- */
+  var EMAIL = 'christophe.khalil@outlook.com';
   each('.copy', function(btn){
     btn.addEventListener('click', function(){
       var label = btn.getAttribute('data-copy'), done = btn.getAttribute('data-copied');
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText('christophe.khalil@outlook.com').then(function(){
-          btn.textContent = done; setTimeout(function(){ btn.textContent = label; }, 1800);
-        }, function(){});
+      function flash(){ btn.textContent = done; btn.classList.add('done'); setTimeout(function(){ btn.textContent = label; btn.classList.remove('done'); }, 1800); }
+      function fallback(){
+        var t = document.createElement('textarea'); t.value = EMAIL; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+        document.body.appendChild(t); t.select();
+        try { if (document.execCommand('copy')) flash(); } catch(e){}
+        t.remove();
       }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(EMAIL).then(flash, fallback);
+      else fallback();
     });
   });
 
@@ -1198,10 +1293,84 @@ var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency:
           if (probe.complete && !probe.naturalWidth) useForThumb('./img/lmkbc-poster.jpg');
           else probe.addEventListener('error', function(){ useForThumb('./img/lmkbc-poster.jpg'); });
         }
-        else if (png === false && jpg === false) Array.prototype.forEach.call(links, function(a){ a.remove(); });
+        else if (png === false && jpg === false) { Array.prototype.forEach.call(links, function(a){ a.remove(); }); tidyMedia(); }
       });
     });
   })();
+
+  /* ---------- Talk photo: research_presentation.jpg / .jpeg / .png / .webp ---------- */
+  each('[data-talk]', function(a){
+    var img = a.querySelector('img'), frame = a.querySelector('.frame-m'), exts = ['jpg', 'jpeg', 'png', 'webp'], i = 0;
+    if (!img) return;
+    function ready(){
+      a.classList.add('ready');
+      var r = img.naturalWidth / img.naturalHeight;
+      if (r && frame) frame.style.aspectRatio = Math.max(.7, Math.min(1.8, r)).toFixed(3);
+    }
+    function next(){
+      i++;
+      if (i >= exts.length) { a.remove(); tidyMedia(); return; }
+      var url = TALK_PHOTO + '.' + exts[i];
+      a.href = url; img.src = url;
+    }
+    img.addEventListener('load', ready);
+    img.addEventListener('error', next);
+    if (img.complete && img.getAttribute('src')) { if (img.naturalWidth) ready(); else next(); }
+  });
+
+  /* ---------- Image viewer for the poster and talk photo ---------- */
+  if (dlg && typeof dlg.showModal === 'function') {
+    var lbImg = dlg.querySelector('.lb-figure img'), lbCap = dlg.querySelector('figcaption'),
+        lbCount = dlg.querySelector('.lb-count'), lbOpen = dlg.querySelector('.lb-open'), group = [], idx = 0, startX = null, swiped = false;
+    function show(i){
+      idx = (i + group.length) % group.length;
+      var a = group[idx], url = a.getAttribute('href'), cap = a.getAttribute('data-caption') || a.textContent.trim();
+      if (lbImg.getAttribute('src') !== url) {
+        lbImg.classList.add('loading');
+        lbImg.onload = function(){ lbImg.classList.remove('loading'); };
+        lbImg.onerror = function(){ lbImg.classList.remove('loading'); };
+        lbImg.src = url;
+        if (lbImg.complete) lbImg.classList.remove('loading');
+      }
+      lbImg.alt = cap; lbCap.textContent = cap; lbOpen.href = url;
+      lbCount.textContent = group.length > 1 ? (idx + 1) + ' / ' + group.length : '';
+      dlg.classList.toggle('single', group.length < 2);
+    }
+    function step(d){ if (group.length > 1) show(idx + d); }
+    document.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('[data-lightbox]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+      var v = views[current];
+      group = v ? Array.prototype.slice.call(v.querySelectorAll('.pub-media [data-lightbox]')) : [];
+      var href = a.getAttribute('href'), i = -1;
+      group.forEach(function(g, k){ if (i < 0 && g.getAttribute('href') === href) i = k; });
+      if (i < 0) { group = [a]; i = 0; }
+      e.preventDefault();
+      show(i);
+      root.classList.add('lb-lock');
+      dlg.showModal();
+    });
+    dlg.querySelector('.lb-close').addEventListener('click', function(){ dlg.close(); });
+    dlg.querySelector('.lb-prev').addEventListener('click', function(){ step(-1); });
+    dlg.querySelector('.lb-next').addEventListener('click', function(){ step(1); });
+    dlg.addEventListener('close', function(){ root.classList.remove('lb-lock'); });
+    dlg.addEventListener('click', function(e){
+      if (swiped) { swiped = false; return; }
+      var t = e.target;
+      if (t === dlg || t.classList.contains('lb-stage') || t.classList.contains('lb-figure')) dlg.close();
+    });
+    dlg.addEventListener('keydown', function(e){
+      var rtl = root.dir === 'rtl';
+      if (e.key === 'ArrowRight') { e.preventDefault(); step(rtl ? -1 : 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); step(rtl ? 1 : -1); }
+    });
+    dlg.addEventListener('pointerdown', function(e){ startX = e.clientX; swiped = false; });
+    dlg.addEventListener('pointerup', function(e){
+      if (startX == null) return;
+      var dx = e.clientX - startX; startX = null;
+      if (Math.abs(dx) > 50 && e.pointerType !== 'mouse') { swiped = true; step((dx < 0) !== (root.dir === 'rtl') ? 1 : -1); }
+    });
+  }
 
   /* =====================================================================
      Hero background: three languages, one meaning space, always moving.
@@ -1324,7 +1493,6 @@ var PRICES = { sprint: 2500, pilot: 8000, retainer: 2000, hourly: 120, currency:
     while (mains.length < 3) mains.push({ x: w * (.3 + .2 * mains.length), y: h * .5 });
     mains.sort(function(a, b){ return a.x - b.x; });
     if (this.rtl) mains.reverse();
-    // Each bridge goes in the freest spot near the middle of its two languages
     // Each bridge goes in the freest spot clear of every cluster, preferring the middle of its two languages
     var Ri = R * .55, bridges = [];
     BRIDGES.forEach(function(bd){
